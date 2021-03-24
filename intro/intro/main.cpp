@@ -1,26 +1,169 @@
-#include<iostream>
+п»ї#include<iostream>
 using namespace std;
 
-//Создание структуры
-struct Point
+//РЎРѕР·РґР°РЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹
+class Point
 {
-	//Структура Point описывает точки на плоскости
+	//РЎС‚СЂСѓРєС‚СѓСЂР° Point РѕРїРёСЃС‹РІР°РµС‚ С‚РѕС‡РєРё РЅР° РїР»РѕСЃРєРѕСЃС‚Рё
 	double x;
 	double y;
+public:
+	double get_x()const
+	{
+		return x;
+	}
+	double get_y()const
+	{
+		return y;
+	}
+
+	void set_x(double x)
+	{
+		this->x = x;
+	}
+	void set_y(double y)
+	{
+		this->y = y;
+	}
+
+	// Constructors
+	//Point()
+	//{
+	//	// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ Р±РµР· РїР°СЂР°РјРµС‚СЂРѕРІ СЃРѕР·РґР°РµС‚ С‚РѕС‡РєСѓ РІ РЅР°С‡Р°Р»Рµ РєРѕРѕСЂРґРёРЅР°С‚
+	//	x = y = int();
+	//	cout << "Default Constructor:\t  " << this << endl;
+	//}
+	//Point(double x)
+	//{
+	//	// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РѕРґРЅРёРј РїР°СЂР°РјРµС‚СЂРѕРј СЃРѕР·РґР°РµС‚ С‚РѕС‡РєСѓ РЅР° РїСЂСЏРјРѕР№
+	//	this->x = x;
+	//	this->y = 0;
+	//	cout << "SingleArgumentConstructor:" << this << endl;
+	//}
+	//Point(double x, double y)
+	//{
+	//	// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё СЃРѕР·РґР°РµС‚ С‚РѕС‡РєСѓ РЅР° РїР»РѕСЃРєРѕСЃС‚Рё
+	//	this->x = x;
+	//	this->y = y;
+	//	cout << "Constructor:\t\t" << this <<endl;
+	//}
+	Point(double x = 0, double y = 0)
+	{
+		// Р­С‚РѕС‚ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РјРѕР¶РµС‚ Р±С‹С‚СЊ РІС‹Р·РІР°РЅ: 
+		//-Р±РµР· РїР°СЂР°РјРµС‚СЂРѕРІ
+		//-СЃ РѕРґРЅРёРј РїР°СЂР°РјРµС‚СЂРѕРј
+		//-СЃ РґРІСѓРјСЏ РїР°СЂР°РјРµС‚СЂР°РјРё
+		this->x = x;
+		this->y = y;
+		cout << "Constructors" << this << endl;
+	}
+	Point(const Point& other)
+	{
+		// other - СЌС‚Рѕ РґСЂСѓРіРѕР№ РѕР±СЉРµРєС‚, РєРѕРїРёСЋ РєРѕС‚РѕСЂРѕРіРѕ РјС‹ СЃРѕР·РґР°РµРј
+		this->x - other.x;
+		this->y - other.y;
+		cout << "CopyConstructor:\t" << this << endl;
+	}
+	~Point()
+	{
+		cout << "Destructor:\t\t" << this << endl;
+	}
+
+	//          Operators
+	void operator=(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyAssignment:\t\t" << this << endl;
+
+	}
+
+	//          Methods
+	void print()
+	{
+		cout << "X = " << x << "\tY = " << y << endl;
+	}
+
+	double distance(const Point& other)const
+	{
+		/*double x_distance = this->x - other.x;
+		double y_distance = other.y - this->y;
+		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+		return distance;*/
+
+		return sqrt(pow(this->x - other.x,2)+pow(other.y - this->y,2));
+		
+	}
 };
-//Создавая структуру или класс, мы создаем новый тип данных,
-//а объявляя объекты этого класса или структуры, мы создаем переменные нашего типа
-// Классы и структур еще называют пользовательскими типами данных
+// РЎРѕР·РґР°РІР°СЏ СЃС‚СЂСѓРєС‚СѓСЂСѓ РёР»Рё РєР»Р°СЃСЃ, РјС‹ СЃРѕР·РґР°РµРј РЅРѕРІС‹Р№ С‚РёРї РґР°РЅРЅС‹С…,
+// Р° РѕР±СЉСЏРІР»СЏСЏ РѕР±СЉРµРєС‚С‹ СЌС‚РѕРіРѕ РєР»Р°СЃСЃР° РёР»Рё СЃС‚СЂСѓРєС‚СѓСЂС‹, РјС‹ СЃРѕР·РґР°РµРј РїРµСЂРµРјРµРЅРЅС‹Рµ РЅР°С€РµРіРѕ С‚РёРїР°
+// РљР»Р°СЃСЃС‹ Рё СЃС‚СЂСѓРєС‚СѓСЂ РµС‰Рµ РЅР°Р·С‹РІР°СЋС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРјРё С‚РёРїР°РјРё РґР°РЅРЅС‹С…
 
 
-//                    КЛАСС - ЭТО ТИП ДАННЫХ
-//                СТРУКТУРА - ЭТО ТИП ДАННЫХ
-//                   ОБЪЕКТ - ЭТО САМАЯ ОБЫЧНАЯ ПЕРЕМЕННАЯ
+//                    РљР›РђРЎРЎ - Р­РўРћ РўРРџ Р”РђРќРќР«РҐ
+//                РЎРўР РЈРљРўРЈР Рђ - Р­РўРћ РўРРџ Р”РђРќРќР«РҐ
+//                   РћР‘РЄР•РљРў - Р­РўРћ РЎРђРњРђРЇ РћР‘Р«Р§РќРђРЇ РџР•Р Р•РњР•РќРќРђРЇ
 
+double distance(const Point& A, const Point& B)
+{
+	/*double x_distance = A.get_x() - B.get_x();
+	double y_distance = A.get_y() - B.get_y();
+	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+	return distance;*/
+
+	return sqrt(pow(A.get_x() - B.get_x(),2) + pow(A.get_y() - B.get_y(),2));
+}
+
+//#define INTRO
+//#define CONSTRUCTORS
+#define DISTANCE
 
 void main()
 {
 	setlocale(LC_ALL, "");
-	int a;     // Объявление переменной "а", типа 'int'
-	Point A;   // Объявление объекта 'A' типа 'Point' 
+
+#ifdef INTRO
+	int a;     // РћР±СЉСЏРІР»РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ "Р°", С‚РёРїР° 'int'
+	Point A;   // РћР±СЉСЏРІР»РµРЅРёРµ РѕР±СЉРµРєС‚Р° 'A' С‚РёРїР° 'Point' 
+
+	A.set_x(2);
+	A.set_y(3);
+
+	cout << A.get_x() << "\t" << A.get_y() << endl;
+
+	Point* pA = &A;
+	cout << pA->get_x() << "\t" << pA->get_y() << endl;
+
+#endif // INTRO
+
+#ifdef CONSTRUCTORS
+
+	Point A;
+	cout << A.get_x() << "\t" << A.get_y() << endl;
+
+
+	Point B = 5;   // Single-Argument constructor
+	B.print();
+
+	Point C(8);
+	C.print();
+
+	Point D{ 12 };
+	D.print();
+
+	Point E(5, 3); // Parametrized Constructor
+	E.print();     
+	              
+	Point F = E;   // CopyConstructor
+	Point G;       // DefaultConstructor
+	G = D;         // CopyAssignment - operator=
+	G.print();
+#endif // CONSTRUCTORS
+
+	Point A(2, 3);
+	Point B(4, 5);
+	A.print();
+	B.print();
+	cout << A.distance(B) << endl;
+	cout << distance(A, B) << endl;
 }
