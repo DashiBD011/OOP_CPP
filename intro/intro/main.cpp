@@ -89,23 +89,23 @@ public:
 	}
 	Point& operator-(const Point& other)
 	{
-		int x_summ = this->x - other.x;
-		int y_summ = this->y - other.y;
-		cout << "A(" << x << "," << y << ") - B(" << other.x << "," << other.y << ") = " << "C(" << x_summ << "," << y_summ << ")" << endl;
+		int x_dif = this->x - other.x;
+		int y_dif = this->y - other.y;
+		cout << "A(" << x << "," << y << ") - B(" << other.x << "," << other.y << ") = " << "C(" << x_dif << "," << y_dif << ")" << endl;
 		return *this;
 	}
 	Point& operator*(const Point& other)
 	{
-		int x_summ = this->x * other.x;
-		int y_summ = this->y * other.y;
-		cout << "A(" << x << "," << y << ") * B(" << other.x << "," << other.y << ") = " << "C(" << x_summ << "," << y_summ << ")" << endl;
+		int x_product = this->x * other.x;
+		int y_product = this->y * other.y;
+		cout << "A(" << x << "," << y << ") * B(" << other.x << "," << other.y << ") = " << "C(" << x_product << "," << y_product << ")" << endl;
 		return *this;
 	}
 	Point& operator/(const Point& other)
 	{
-		double x_summ = this->x / other.x;
-		double y_summ = this->y / other.y;
-		cout << "A(" << x << "," << y << ") / B(" << other.x << "," << other.y << ") = " << "C(" << x_summ << "," << y_summ << ")" << endl;
+		double x_division = this->x / other.x;
+		double y_division = this->y / other.y;
+		cout << "A(" << x << "," << y << ") / B(" << other.x << "," << other.y << ") = " << "C(" << x_division << "," << y_division << ")" << endl;
 		return *this;
 	}
 
@@ -192,10 +192,10 @@ void main()
 	//int a, b, c;
 	//a = b = c = 0;
 
-	Point A(1, 5);
-	Point B(2, 1);
+	Point A(0, 5);
+	Point B(4, 7);
 	Point C;
-
+	 
 	//C = A + B;
 	//cout << C << endl; Оказывается, оператор '<<' тоже нужно перегрузить, но я не понял как
 	A + B;
