@@ -1,5 +1,8 @@
 ﻿#include<iostream>
-using namespace std;
+//using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
 
 //Создание структуры
 class Point
@@ -55,7 +58,7 @@ public:
 		//-с двумя параметрами
 		this->x = x;
 		this->y = y;
-		cout << "Constructors" << this << endl;
+		cout << "Constructors\t\t" << this << endl;
 	}
 	Point(const Point& other)
 	{
@@ -70,12 +73,40 @@ public:
 	}
 
 	//          Operators
-	void operator=(const Point& other)
+    Point& operator=(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
 		cout << "CopyAssignment:\t\t" << this << endl;
-
+		return *this;
+	}
+	Point& operator+(const Point& other)
+	{
+		int x_summ = this->x+other.x;
+		int y_summ = this->y+other.y;
+		cout << "A(" << x << "," << y << ") + B(" << other.x << "," << other.y << ") = " << "C(" << x_summ << "," << y_summ << ")" << endl;
+		return *this;
+	}
+	Point& operator-(const Point& other)
+	{
+		int x_summ = this->x - other.x;
+		int y_summ = this->y - other.y;
+		cout << "A(" << x << "," << y << ") - B(" << other.x << "," << other.y << ") = " << "C(" << x_summ << "," << y_summ << ")" << endl;
+		return *this;
+	}
+	Point& operator*(const Point& other)
+	{
+		int x_summ = this->x * other.x;
+		int y_summ = this->y * other.y;
+		cout << "A(" << x << "," << y << ") * B(" << other.x << "," << other.y << ") = " << "C(" << x_summ << "," << y_summ << ")" << endl;
+		return *this;
+	}
+	Point& operator/(const Point& other)
+	{
+		double x_summ = this->x / other.x;
+		double y_summ = this->y / other.y;
+		cout << "A(" << x << "," << y << ") / B(" << other.x << "," << other.y << ") = " << "C(" << x_summ << "," << y_summ << ")" << endl;
+		return *this;
 	}
 
 	//          Methods
@@ -86,15 +117,10 @@ public:
 
 	double distance(const Point& other)const
 	{
-		/*double x_distance = this->x - other.x;
-		double y_distance = other.y - this->y;
-		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
-		return distance;*/
-
-		return sqrt(pow(this->x - other.x,2)+pow(other.y - this->y,2));
-		
+		return sqrt(pow(this->x - other.x,2)+pow(other.y - this->y,2));	
 	}
 };
+
 // Создавая структуру или класс, мы создаем новый тип данных,
 // а объявляя объекты этого класса или структуры, мы создаем переменные нашего типа
 // Классы и структур еще называют пользовательскими типами данных
@@ -106,17 +132,19 @@ public:
 
 double distance(const Point& A, const Point& B)
 {
-	/*double x_distance = A.get_x() - B.get_x();
-	double y_distance = A.get_y() - B.get_y();
-	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
-	return distance;*/
-
 	return sqrt(pow(A.get_x() - B.get_x(),2) + pow(A.get_y() - B.get_y(),2));
+}
+
+std::ostream& operator<<(std::ostream &os, const Point& C)
+{
+	return os << C << endl;
 }
 
 //#define INTRO
 //#define CONSTRUCTORS
-#define DISTANCE
+#define ASSIGNMENT_CHECK
+//#define OPERATOR_EXAMPLES
+//#define DISTANCE
 
 void main()
 {
@@ -160,10 +188,39 @@ void main()
 	G.print();
 #endif // CONSTRUCTORS
 
+#ifdef ASSIGNMENT_CHECK
+	//int a, b, c;
+	//a = b = c = 0;
+
+	Point A(1, 5);
+	Point B(2, 1);
+	Point C;
+
+	//C = A + B;
+	//cout << C << endl; Оказывается, оператор '<<' тоже нужно перегрузить, но я не понял как
+	A + B;
+	A - B;
+	A* B;
+	A / B;
+
+
+#endif // ASSIGNMENT_CHECK
+
+#ifdef OPERATOR_EXAMPLES
+	cout << A + B << endl;           // Неявный вызов оператора '+'	
+	cout << A.operator+(B) << endl;  // Явный вызов оператора '+', перегруженного в классе
+	cout << operator+(A, B) << endl; // Явный вызов оператора '+', перегруженного за классом
+
+#endif // OPERATOR_EXAMPLES
+
+#ifdef DISTANCE
 	Point A(2, 3);
 	Point B(4, 5);
+
 	A.print();
 	B.print();
 	cout << A.distance(B) << endl;
 	cout << distance(A, B) << endl;
+#endif // DISTANCE
+
 }
