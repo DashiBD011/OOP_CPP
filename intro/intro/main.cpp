@@ -63,9 +63,10 @@ public:
 	Point(const Point& other)
 	{
 		// other - это другой объект, копию которого мы создаем
-		this->x - other.x;
-		this->y - other.y;
+		this->x = other.x;
+		this->y = other.y;
 		cout << "CopyConstructor:\t" << this << endl;
+	
 	}
 	~Point()
 	{
@@ -80,34 +81,58 @@ public:
 		cout << "CopyAssignment:\t\t" << this << endl;
 		return *this;
 	}
-	Point& operator+(const Point& other)
+	Point& operator+=(const Point& other)
 	{
-		int x_summ = this->x+other.x;
-		int y_summ = this->y+other.y;
-		cout << "A(" << x << "," << y << ") + B(" << other.x << "," << other.y << ") = " << "C(" << x_summ << "," << y_summ << ")" << endl;
+		this->x += other.x;
+		this->y += other.y;
+		cout << "operator+=\t\t" << this << endl;
 		return *this;
 	}
-	Point& operator-(const Point& other)
+
+	//             Increment/Decrement
+
+	Point& operator++()
 	{
-		int x_dif = this->x - other.x;
-		int y_dif = this->y - other.y;
-		cout << "A(" << x << "," << y << ") - B(" << other.x << "," << other.y << ") = " << "C(" << x_dif << "," << y_dif << ")" << endl;
+		this->x++;
+		this->y++;
+		cout << "Prefix increment:\t" << this << endl;
 		return *this;
 	}
-	Point& operator*(const Point& other)
+	Point operator++(int)
 	{
-		int x_product = this->x * other.x;
-		int y_product = this->y * other.y;
-		cout << "A(" << x << "," << y << ") * B(" << other.x << "," << other.y << ") = " << "C(" << x_product << "," << y_product << ")" << endl;
-		return *this;
+		Point old = *this; //CopyConstructor
+		this->x++;
+		this->y++;
+		cout << "Postfix increment:\t" << this << endl;
+		return old;
+
 	}
-	Point& operator/(const Point& other)
+
+	/*Point operator+(const Point& other)const
 	{
-		double x_division = this->x / other.x;
-		double y_division = this->y / other.y;
-		cout << "A(" << x << "," << y << ") / B(" << other.x << "," << other.y << ") = " << "C(" << x_division << "," << y_division << ")" << endl;
-		return *this;
-	}
+		Point result;
+		result.x = this->x + other.x;
+		result.y = this->y + other.y;
+		cout << "operator+" << endl;
+		return result;
+	}*/
+	/*Point operator-(const Point& other)const
+	{
+		
+		Point result(this->x - other.x, this->y - other.y);;
+		cout << "operator-" << endl;
+		return result;
+	}*/
+	/*Point operator*(const Point& other)const
+	{
+		
+		return Point(this->x * other.x, this->y * other.y);
+	}*/
+	/*Point operator/(const Point& other)
+	{
+		return Point(this->x / other.x, this->y / other.y);
+	
+	}*/
 
 	//          Methods
 	void print()
@@ -135,16 +160,47 @@ double distance(const Point& A, const Point& B)
 	return sqrt(pow(A.get_x() - B.get_x(),2) + pow(A.get_y() - B.get_y(),2));
 }
 
-std::ostream& operator<<(std::ostream &os, const Point& C)
+Point operator+(const Point& left, const Point& right)
 {
-	return os << C << endl;
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	cout << "Global plus" << endl;
+	return result;
+}
+Point operator-(const Point& left, const Point& right)
+{
+	Point result
+	{
+		left.get_x() - right.get_x(),
+		left.get_y() - right.get_y()
+	};
+	cout << "Global minus" << endl;
+	return result;
+}
+Point operator*(const Point& left, const Point& right)
+{
+	return Point(left.get_x() * right.get_x(), left.get_y() * right.get_y());
+}
+Point operator/(const Point& left, const Point& right)
+{
+	return Point(left.get_x() / right.get_x(), left.get_y() / right.get_y());
+}
+
+std::ostream& operator<<(std::ostream& os, const Point& obj)
+{
+	return os << "X = " << obj.get_x() << "\t" << "Y = " << obj.get_y();
+
 }
 
 //#define INTRO
 //#define CONSTRUCTORS
-#define ASSIGNMENT_CHECK
+//#define ASSIGNMENT_CHECK
 //#define OPERATOR_EXAMPLES
 //#define DISTANCE
+//#define OPERATORS_OVERLOADDS
+//#define ARITHMETICAL_OPERATORS
+//#define COMPOUND_ASSIGNMENTS
 
 void main()
 {
@@ -223,4 +279,45 @@ void main()
 	cout << distance(A, B) << endl;
 #endif // DISTANCE
 
+#ifdef OPERATORS_OVERLOADDS
+
+
+#ifdef ARITHMETICAL_OPERATORS
+	Point A(2, 3);
+	Point B(4, 5);
+	Point C = A + B;
+	C.print();
+
+	Point D = A - B;
+	D.print();
+
+	Point E = A * B;
+	E.print();
+
+	//Point F = A.operator/(B);
+	Point F = operator/(A, B);
+	F.print();
+
+	(A * B).print();
+#endif // ARITHMETICAL_OPERATORS
+
+#ifdef COMPOUND_ASSIGNMENTS
+	Point A(2, 3);
+	Point B(4, 5);
+	A += B;
+	A.print();
+	/*++A;
+	A.print();
+	A++;
+	A.print();*/
+	cout << A++ << endl;
+	cout << A << endl;
+	cout << ++A << endl;
+	cout << A << endl;
+	
+#endif // COMPOUND_ASSIGNMENTS
+
+
+#endif // OPERATORS_OVERLOADDS
+	
 }
