@@ -5,6 +5,11 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+class Fraction;
+Fraction operator+(Fraction left, Fraction right);
+Fraction operator-(Fraction left, Fraction right);
+Fraction operator*(Fraction left, Fraction right);
+Fraction operator/(Fraction left, Fraction right);
 class Fraction
 {
 	bool minus;
@@ -144,6 +149,19 @@ public:
 		cout << "Destructor:\t" << this << endl;
 #endif // DEBUG
 
+
+		
+	}
+	Fraction& operator=(const Fraction& other)
+	{
+		this->minus = other.minus;
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+#ifdef DEBUG
+		cout << "CopyAssignment:\t" << this << endl;
+#endif // DEBUG
+		return *this;
 	}
 	Fraction& to_proper()
 	{
@@ -178,10 +196,21 @@ public:
 			
 		return *this;
 	}
-	Fraction& operator+=(Fraction& result)
+	Fraction& operator+=(const Fraction& other)
 	{
-		//Fraction& operator+(Fraction & left, Fraction & right);
-
+		return *this = *this + other;
+	}
+	Fraction& operator-=(const Fraction& other)
+	{
+		return *this = *this - other;
+	}
+	Fraction& operator*=(const Fraction& other)
+	{
+		return *this = *this*other;
+	}
+	Fraction& operator/=(const Fraction& other)
+	{
+		return *this = *this / other;
 	}
 };
 
@@ -250,7 +279,7 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 }
 
 //#define CONSTRUCTORS_CHECK
-#define OPERATORS_CHECK
+//#define ARITHMETICAL_OPERATORS_CHECK
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -269,15 +298,28 @@ void main()
 	cout << D << endl;
 #endif // CONSTRUCTORS_CHECK
 
-#ifdef OPERATORS_CHECK
+	Fraction A(2, 3, 4);
+	Fraction B(5, 6, 7);
+	A += B;
+	cout << A.reduce() << endl;
+
+	A -= B;
+	cout << A.reduce() << endl;
+
+	A *= B;
+	cout << A.reduce() << endl;
+
+	A /= B;
+	cout << A.reduce() << endl;
+
+#ifdef ARITHMETICAL_OPERATORS_CHECK
 
 	Fraction D(-52, 128);
 	//cout << D << " = " << D.to_proper() << endl;
 	//cout << D << " = " << D.to_improper() << endl;
 	//cout << D << " = " << D.reduce() << endl;
 
-	Fraction A(2, 3, 4);
-	Fraction B(5, 6, 7);
+	
 	cout << A << "\t" << B << endl;
 	cout << A << " + " << B << " = " << A + B << endl;
 	cout << B << " - " << A << " = " << B - A << endl;
