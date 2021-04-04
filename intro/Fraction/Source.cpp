@@ -83,10 +83,7 @@ public:
 		this->integer = 0;
 		this->numerator = 0;
 		this->denominator = 1;
-#ifdef DEBUG
 		cout << "Constructor0:\t" << this << endl;
-#endif // DEBUG
-
 
 	}
 	Fraction(int integer)
@@ -152,17 +149,7 @@ public:
 
 		
 	}
-	Fraction& operator=(const Fraction& other)
-	{
-		this->minus = other.minus;
-		this->integer = other.integer;
-		this->numerator = other.numerator;
-		this->denominator = other.denominator;
-#ifdef DEBUG
-		cout << "CopyAssignment:\t" << this << endl;
-#endif // DEBUG
-		return *this;
-	}
+	
 	Fraction& to_proper()
 	{
 		/*if(integer>=0)integer += numerator / denominator;
@@ -196,6 +183,17 @@ public:
 			
 		return *this;
 	}
+	Fraction& operator=(const Fraction& other)
+	{
+		this->minus = other.minus;
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+#ifdef DEBUG
+		cout << "CopyAssignment:\t" << this << endl;
+#endif // DEBUG
+		return *this;
+	}
 	Fraction& operator+=(const Fraction& other)
 	{
 		return *this = *this + other;
@@ -212,8 +210,42 @@ public:
 	{
 		return *this = *this / other;
 	}
+	Fraction& operator++()
+	{
+		minus ? this->integer-- : this->integer++;
+		return *this;
+	}
+	Fraction operator++(int)
+	{
+		Fraction old = *this;
+		minus ? this->integer-- : this->integer++;
+		return old;
+	}
+	Fraction& operator--()
+	{
+		minus ? this->integer++ : this->integer--;
+		return *this;
+	}
+	Fraction operator--(int)
+	{
+		Fraction old = *this;
+		minus ? this->integer++ : this->integer--;
+		return old;
+	}
+
 };
 
+ostream& operator<<(ostream& os, const Fraction& obj)
+{
+	if (obj.get_minus())os << "(-";
+	if (obj.get_integer())os << obj.get_integer();
+	if (obj.get_integer() && obj.get_numerator())os << "(";
+	if (obj.get_numerator())os << obj.get_numerator() << "/" << obj.get_denominator();
+	if (obj.get_integer() && obj.get_numerator())os << ")";
+	if (obj.get_integer() == 0 && obj.get_numerator() == 0)os << 0;
+	if (obj.get_minus())os << ")";
+	return os;
+}
 Fraction operator+(Fraction left, Fraction right)
 {
 	left.to_proper();
@@ -234,7 +266,7 @@ Fraction operator-(Fraction left, Fraction right)
 	right.to_proper().set_minus_to_number();
 	return Fraction
 	(
-		left.get_numerator() - right.get_numerator(),
+		left.get_integer() - right.get_integer(),
 		left.get_numerator() * right.get_denominator() - right.get_numerator() * left.get_denominator(),
 		left.get_denominator() * right.get_denominator()
 	).to_proper().get_minus_from_number();
@@ -265,18 +297,22 @@ Fraction operator/(Fraction left, Fraction right)
 	return result;
 
 }
-
-ostream& operator<<(ostream& os, const Fraction& obj)
+void operator>(Fraction left, Fraction right)
 {
-	if (obj.get_minus())os << "(-";
-	if (obj.get_integer())os << obj.get_integer();
-	if (obj.get_integer() && obj.get_numerator())os << "(";
-	if (obj.get_numerator())os << obj.get_numerator() << "/" << obj.get_denominator();
-	if (obj.get_integer() && obj.get_numerator())os << ")";
-	if (obj.get_integer() == 0 && obj.get_numerator() == 0)os << 0;
-	if (obj.get_minus())os << ")";
-	return os;
+	left.to_improper().set_minus_to_number();
+	right.to_improper().set_minus_to_number();
+	double first = left.get_numerator() / left.get_denominator(); 
+	double second = right.get_numerator() / right.get_denominator();
+	if (first > second)cout << left.to_proper() << " > " << right.to_proper() << endl;
+	if (first < second)cout << left.to_proper() << " < " << right.to_proper() << endl;
+	if(first == second)cout << left.to_proper() << " == " << right.to_proper() << endl;
+	if(first != second)cout << left.to_proper() << " != " << right.to_proper() << endl;
+	if(first >= second)cout << left.to_proper() << " >= " << right.to_proper() << endl;
+	if(first <= second)cout << left.to_proper() << " <= " << right.to_proper() << endl;
 }
+
+
+
 
 //#define CONSTRUCTORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
@@ -300,7 +336,7 @@ void main()
 
 	Fraction A(2, 3, 4);
 	Fraction B(5, 6, 7);
-	A += B;
+	/*A += B;
 	cout << A.reduce() << endl;
 
 	A -= B;
@@ -310,7 +346,17 @@ void main()
 	cout << A.reduce() << endl;
 
 	A /= B;
-	cout << A.reduce() << endl;
+	cout << A.reduce() << endl;*/
+
+	//cout << A << endl;
+	//cout << A++ << endl;
+	//cout << A << endl;
+	//cout << ++A << endl;
+	//cout << A << endl;
+	//cout << A-- << endl;
+	//cout << A << endl;
+	//cout << --A << endl;
+	operator>(A, B);
 
 #ifdef ARITHMETICAL_OPERATORS_CHECK
 
