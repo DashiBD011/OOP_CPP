@@ -3,12 +3,12 @@
 #include<ctime>
 using namespace std;
 
-#define HUMAN_TAKE_PARAMETERS const string& last_name, const string& first_name, const unsigned int& age
-#define STUDENT_TAKE_PARAMETERS const string& speciality, const string& group, double rating
-#define TEACHER_TAKE_PARAMETERS const string& speciality, unsigned int experience
+#define HUMAN_TAKE_PARAMETERS  const string& last_name, const string& first_name, unsigned int age
+#define STUDENT_GET_PARAMETERS const string& speciality, const string& group, double rating
+#define TEACHER_GET_PARAMETERS const string& speciality, unsigned int experience
 
-#define HUMAN_GIVE_PARAMETERS last_name, first_name, age
-#define STUDENT_GIVE_PARAMETERS rating, group, speciality
+#define HUMAN_GIVE_PARAMETERS   last_name, first_name, age
+#define STUDENT_GIVE_PARAMETERS speciality, group, rating
 #define TEACHER_GIVE_PARAMETERS speciality, experience
 
 class Human
@@ -30,7 +30,7 @@ public:
 	{
 		return birth_date;
 	}*/
-	const unsigned int& get_age()const
+	unsigned int get_age()const 
 	{
 		return age;
 	}
@@ -46,12 +46,12 @@ public:
 	{
 		this->birth_date = birth_date;
 	}*/
-	void set_age(const unsigned int& age)
+	void set_age(unsigned int age)
 	{
 		this->age = age;
 	}
 	//      Constructors
-	Human(const string& last_name, const string& first_name, const unsigned int& age)
+	Human(const string& last_name, const string& first_name, unsigned int age)
 	{
 		set_last_name(last_name);
 		set_first_name(first_name);
@@ -60,13 +60,13 @@ public:
 		cout << "HConstructor:\t"<< this << endl;
 
 	}
-	~Human()
+	virtual ~Human()
 	{
 		cout << "HDestructor:\t" << this <<endl;
 	}
 
 	//      Methods
-	void info()const
+	virtual void info()const
 	{
 		//cout <<"Last name:  "<< last_name << endl;
 		//cout <<"First name: "<< first_name << endl;
@@ -106,9 +106,9 @@ public:
 		this->rating = rating;
 	}
 	//     Constructor
-	Student(
+	Student(  
 		HUMAN_TAKE_PARAMETERS,
-		STUDENT_TAKE_PARAMETERS
+		STUDENT_GET_PARAMETERS 
 	       ):Human(HUMAN_GIVE_PARAMETERS)
 	{
 		set_speciality(speciality);
@@ -152,7 +152,7 @@ public:
 	Teacher
 	(
 		HUMAN_TAKE_PARAMETERS,
-		TEACHER_TAKE_PARAMETERS
+		TEACHER_GET_PARAMETERS
 	):Human(HUMAN_GIVE_PARAMETERS)
 	{
 		set_experience(experience);
@@ -164,7 +164,7 @@ public:
 		cout << "TDestructor:\t" << this << endl;
 	}
 
-	void info()
+	void info()const
 	{
 		Human::info();
 		cout << speciality << ", опыт преподавания: "<< experience <<" лет" << endl;
@@ -179,7 +179,7 @@ public:
 	{
 		return topic;
 	}
-	void set_topic(string& topic)
+	void set_topic(const string& topic)
 	{
 		this->topic = topic;
 
@@ -188,12 +188,12 @@ public:
 	Graduate
 	(
 		HUMAN_TAKE_PARAMETERS,
-		STUDENT_TAKE_PARAMETERS,
+		STUDENT_GET_PARAMETERS,
 		const string& topic
-    ):Student(HUMAN_GIVE_PARAMETERS, STUDENT_GIVE_PARAMETERS),
+    ) :Student(HUMAN_GIVE_PARAMETERS, STUDENT_GIVE_PARAMETERS),
 		topic(topic)
 	{
-		cout << "GConstructor:\t\t" << this << endl;
+		cout << "GConstructor:\t" << this << endl;
 
 	}
 	~Graduate()
@@ -208,7 +208,7 @@ public:
 };
 
 #define delimeter "\n--------------------------------------------------\n"
-#define INHERITANCE_CHECK
+//#define INHERITANCE_CHECK
 
 void main()
 {
@@ -217,7 +217,7 @@ void main()
 
 	/*Human human("Тупенко", "Василий", 18);
 human.info();*/
-	Student vasya("Тупенко", "Василий", 18, "программирование", "БД_011", 4.5);
+	Student vasya("Тупенко", "Василий", 18, "программирование", "БД_011", 4);
 	vasya.info();
 	cout << delimeter << endl;
 	Teacher Mariya("Иванова", "Мария", 56, "математика", 26);
@@ -229,5 +229,30 @@ human.info();*/
 
 #endif // INHERITANCE_CHECK
 
+	//1. Generalization:
+	Human* group[] =
+	{
+		new Student("Батодалаев", "Даши", 16, "РПО", "PD_011", 5),
+		new Student("Загидуллин", "Линар", 32, "РПО", "PD_011", 5),
+		new Graduate("Шугани", "Сергей", 15, "РПО", "PD_011", 5, "Защита персональных данных"),
+		new Teacher("Einstein", "Albert", 141, "Atrophisics", 110),
+		new Student("Маркин", "Даниил", 17, "РПО", "BV_011", 5),
+		new Teacher("Richter", "Jeffrey", 45, "Windows development", 20)
+	};
+
+
+	cout << sizeof(group) << endl;
+	
+	//2. Specialization:
+	cout << delimeter << endl;
+
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		group[i]->info();
+		cout << delimeter << endl;;
+	}
+
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++) delete group[i];
+	
 
 }
