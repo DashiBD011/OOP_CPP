@@ -1,0 +1,8 @@
+﻿Class;last_name;first_name;age;speciality;group;rating;experience;topic
+Student;Батодалаев;Даши;16;РПО;PD_011;5;;
+Student;Загидуллин;Линар;32;РПО;PD_011;5;;
+Graduate;Шугани;Сергей;15;РПО;PD_011;5;;Защита персональных данных
+Teacher;Einstein;Albert;141;Astrophisics;;;110;
+Student;Маркин;Даниил;17;РПО;BV_011;5;;
+Teacher;Richter;Jeffrey;45;Windows Development;;;20;
+Graduate;Курицын;Алексей;33;РПО;PD_011;5;;Разработка распределенной нереляционной базы данных

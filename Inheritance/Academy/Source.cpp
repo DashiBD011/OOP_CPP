@@ -2,7 +2,6 @@
 #include"Teacher.h"
 #include"Graduate.h"
 
-
 #define delimeter "\n--------------------------------------------------\n"
 //#define INHERITANCE_CHECK
 
