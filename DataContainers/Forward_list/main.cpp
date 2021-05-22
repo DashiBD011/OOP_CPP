@@ -101,6 +101,7 @@ public:
 		Temp->pNext = New;
 		size++;
 	}
+
 	//        Methods
 	void print()
 	{
@@ -132,7 +133,7 @@ void main()
 	//list.print();
 	//list.pop_back();
 	//list.print();
-	////list.push_back(1000);
+	//list.push_back(1000);
 	int value;
 	int index;
 	cout << "¬ведите добавл€емое значение: "; cin >> value;
