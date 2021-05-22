@@ -1,10 +1,10 @@
-#include<iostream>
+п»ї#include<iostream>
 using namespace std;
 
 class Element
 {
-	int Data;        // Значение элемента
-	Element* pNext;  // Указатель на следующий элемент 
+	int Data;        // Р—РЅР°С‡РµРЅРёРµ СЌР»РµРјРµРЅС‚Р°
+	Element* pNext;  // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚ 
 	static int count;
 public:
 	Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext)
@@ -20,7 +20,7 @@ public:
 	friend class ForwardList;
 };
 
-int Element::count = 0; // инициализация статической переменной
+int Element::count = 0; // РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‚Р°С‚РёС‡РµСЃРєРѕР№ РїРµСЂРµРјРµРЅРЅРѕР№
 
 class ForwardList
 {
@@ -29,7 +29,7 @@ class ForwardList
 public:
 	ForwardList() 
 	{
-		Head = nullptr; //DefaultConstructor создает пустой список
+		Head = nullptr; //DefaultConstructor СЃРѕР·РґР°РµС‚ РїСѓСЃС‚РѕР№ СЃРїРёСЃРѕРє
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
@@ -49,7 +49,7 @@ public:
 
 	void push_back(int Data)
 	{
-		// push_back не умеет работать с пустым списком
+		// push_back РЅРµ СѓРјРµРµС‚ СЂР°Р±РѕС‚Р°С‚СЊ СЃ РїСѓСЃС‚С‹Рј СЃРїРёСЃРєРѕРј
 		if (Head == nullptr)
 		{
 			push_front(Data);
@@ -111,8 +111,8 @@ public:
 			cout << Temp << "\t" << Temp->Data << "\t" << Temp->pNext << endl;
 			Temp = Temp->pNext;
 		}
-		cout <<"Количество элементов в списке: "<< size << endl;
-		cout <<"Общее количество элементов: "<< Element::count << endl;
+		cout <<"РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃРїРёСЃРєРµ: "<< size << endl;
+		cout <<"РћР±С‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ: "<< Element::count << endl;
 
 	} 
 };
@@ -121,7 +121,7 @@ void main()
 {
 	setlocale(LC_ALL, "");
 	int n;
-	cout << "Введите размер списка: "; cin >> n;
+	cout << "Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ СЃРїРёСЃРєР°: "; cin >> n;
 	ForwardList list;
 	for (int i = 0; i < n; i++)
 	{
@@ -136,11 +136,11 @@ void main()
 	//list.push_back(1000);
 	int value;
 	int index;
-	cout << "Введите добавляемое значение: "; cin >> value;
-	cout << "Введите индекс добавляемого значения: "; cin >> index;
+	cout << "Р’РІРµРґРёС‚Рµ РґРѕР±Р°РІР»СЏРµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ: "; cin >> value;
+	cout << "Р’РІРµРґРёС‚Рµ РёРЅРґРµРєСЃ РґРѕР±Р°РІР»СЏРµРјРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ: "; cin >> index;
 	list.insert(value, index);
 	list.print();
-	cout << "Еще один список:\n" << endl;
+	cout << "Р•С‰Рµ РѕРґРёРЅ СЃРїРёСЃРѕРє:\n" << endl;
 	ForwardList list2;
 	list2.push_back(3);
 	list2.push_back(5);
