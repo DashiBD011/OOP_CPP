@@ -22,7 +22,7 @@ public:
 
 int Element::count = 0; // инициализация статической переменной
 
-class ForwardList
+class ForwardList 
 {
 	Element* Head;
 	int size;
@@ -33,8 +33,19 @@ public:
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
+	ForwardList(const ForwardList& other)
+	{
+		Element* Temp = other.Head;
+		while (Temp)
+		{
+			push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+		cout << "LCopyConstructor:\t" << this << endl;
+	}
 	~ForwardList()
 	{
+		while (Head) pop_front();
 		cout << "LDestructor:\t" << this << endl;
 	}
 
@@ -101,7 +112,24 @@ public:
 		Temp->pNext = New;
 		size++;
 	}
-
+	void erase(int index)
+	{
+		if (index > size)return;
+		if (index == 0)
+		{
+			pop_front();
+			return;
+		}
+		Element* Temp = Head;
+		for (int i = 0; i < index-1; i++)
+		{
+			Temp = Temp->pNext;
+		}
+		Element* to_del = Temp->pNext;
+		Temp->pNext = Temp->pNext->pNext;
+		delete to_del;
+		size--;
+	}
 	//        Methods
 	void print()
 	{
@@ -117,6 +145,8 @@ public:
 	} 
 };
 
+//#define BASE_CHECK
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -129,6 +159,7 @@ void main()
 		list.push_back(rand() % 100);
 	}
 	list.print();
+#ifdef BASE_CHECK
 	//list.pop_front();
 	//list.print();
 	//list.pop_back();
@@ -140,10 +171,21 @@ void main()
 	cout << "Введите индекс добавляемого значения: "; cin >> index;
 	list.insert(value, index);
 	list.print();
-	cout << "Еще один список:\n" << endl;
-	ForwardList list2;
-	list2.push_back(3);
-	list2.push_back(5);
-	list2.push_back(8);
+	cout << "Введите индекс удаляемого значения: "; cin >> index;
+	list.erase(index);
+	list.print();
+	//cout << "Еще один список:\n" << endl;
+	//ForwardList list2;
+	//list2.push_back(3);
+	//list2.push_back(5);
+	//list2.push_back(8);
+	//list2.print();
+
+#endif // BASE_CHECK
+
+	ForwardList list2(list);
 	list2.print();
+
+	ForwardList list3=list2;
+	list3.print();
 }
