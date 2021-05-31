@@ -1,6 +1,10 @@
 ﻿#include<iostream>
 using namespace std;
 
+#define tab "\t"
+#define delimeter "\n-----------------------------------------------------\n"
+
+
 class Element
 {
 	int Data;        // Значение элемента
@@ -18,9 +22,58 @@ public:
 		cout << "EDestructor:\t" << this << endl;
 	}
 	friend class ForwardList;
+	friend class Iterator;
 };
 
 int Element::count = 0; // инициализация статической переменной
+
+class Iterator
+{
+	Element* Temp;
+public:
+	Iterator(Element* Temp = nullptr)
+	{
+		this->Temp = Temp;
+		cout << "IConstructor:\t" << this << endl;
+	}
+	~Iterator()
+	{
+		cout << "IDestructor:\t" << this << endl;
+	}
+
+	//			Operators:
+	Iterator& operator++()
+	{
+		Temp = Temp->pNext;
+		return *this;
+	}
+
+	Iterator operator++(int)
+	{
+		Iterator old = *this;
+		Temp = Temp->pNext;
+		return old;
+	}
+
+	bool operator==(const Iterator& other)const
+	{
+		return this->Temp == other.Temp;
+	}
+	bool operator!=(const Iterator& other)const
+	{
+		return this->Temp != other.Temp;
+	}
+
+	Element*& operator->()
+	{
+		return Temp;
+	}
+	Element* get_current_address()
+	{
+		return Temp;
+	}
+};
+
 
 class ForwardList 
 {
@@ -41,7 +94,7 @@ public:
 			push_back(Temp->Data);
 			Temp = Temp->pNext;
 		}
-		cout << "LCopyConstructor:\t" << this << endl;
+	 	cout << "LCopyConstructor:\t" << this << endl;
 	}
 	~ForwardList()
 	{
@@ -49,12 +102,28 @@ public:
 		cout << "LDestructor:\t" << this << endl;
 	}
 
+	//			Operators:
+	ForwardList& operator=(const ForwardList& other)
+	{
+		if (this == &other)return *this;
+		while (Head)pop_front();
+		Element* Temp = other.Head;
+		while (Temp)
+		{
+			push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+		cout << "LCopyAssignment:" << this << endl;
+		return *this;
+	}
+
 	//        Adding elements:
 	void push_front(int Data)
 	{
-		Element* New = new Element(Data);
+		/*Element* New = new Element(Data);
 		New -> pNext = Head;
-		Head = New;
+		Head = New;*/
+		Head = new Element(Data, Head);
 		size++;
 	}
 
@@ -66,13 +135,13 @@ public:
 			push_front(Data);
 			return;
 		}
-		Element* New = new Element(Data);
+		//Element* New = new Element(Data);
 		Element* Temp = Head;
 		while (Temp->pNext != nullptr)
 		{
 			Temp = Temp->pNext;
 		}
-		Temp->pNext = New;
+		Temp->pNext = new Element(Data);
 		size++;
 	}
 
@@ -104,12 +173,14 @@ public:
 			push_front(Data);
 			return;
 		}
-		Element* New = new Element(Data);
+		//Element* New = new Element(Data);
 		Element* Temp = Head;
 		for (int i = 0; i < index - 1; i++, Temp = Temp->pNext)
-	    if (Temp == nullptr)break;
+			if (Temp->pNext == nullptr)break;
+		/*Temp = Temp->pNext;
 		New->pNext = Temp->pNext;
-		Temp->pNext = New;
+		Temp->pNext = New;*/
+		Temp->pNext = new Element(Data, Temp->pNext);
 		size++;
 	}
 	void erase(int index)
@@ -133,12 +204,14 @@ public:
 	//        Methods
 	void print()
 	{
-		Element* Temp = Head;
+		/*Element* Temp = Head;
 		while (Temp != nullptr)
 		{
 			cout << Temp << "\t" << Temp->Data << "\t" << Temp->pNext << endl;
 			Temp = Temp->pNext;
-		}
+		}*/
+		for (Iterator Temp = Head; Temp != nullptr; Temp++)
+			cout << Temp.get_current_address() << tab << Temp->Data << tab << Temp->pNext << endl;;
 		cout <<"Количество элементов в списке: "<< size << endl;
 		cout <<"Общее количество элементов: "<< Element::count << endl;
 
