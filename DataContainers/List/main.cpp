@@ -21,8 +21,8 @@ class List
 			this->pNext = pNext;
 			this->pPrev = pPrev;
 #ifdef DEBUG
-			cout << "EConstructor:\t" << this << endl;
 #endif // DEBUG
+			cout << "EConstructor:\t" << this << endl;
 
 
 		}
@@ -196,13 +196,21 @@ public:
 			push_back(*it);
 		}
 	}
+	List(const List& other)
+	{
+		Element* Temp = other.Head;
+		while (Temp)
+		{
+			push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+		cout << "LCopyConstructor:\t" << this << endl;
+	}
 	
-
 	~List()
 	{
 		//while (Head)pop_front();
 		while (Tail)pop_back();
-		
 		cout << "LDestructor:\t" << this << endl; 
 
 	}
@@ -222,6 +230,20 @@ public:
 			for (size_t i = 0; i < size - Index - 1; i++)Temp = Temp->pPrev;
 		}
 		return Temp->Data;
+	}
+
+	List& operator=(const List& other)
+	{
+		if (this == &other)return *this;
+		while (Head)pop_front();
+		Element* Temp = other.Head;
+		while (Temp)
+		{
+			push_back(Temp->Data);
+			Temp = Temp->pNext;
+		}
+		cout << "LCopyAssignment:\t" << this << endl;
+		return *this;
 	}
 
 	//               Adding elements:
@@ -360,15 +382,13 @@ public:
 	void print_reverse()
 	{
 		cout << "print_reverse:\n" << endl;
-		for (Iterator Temp = Tail; Temp!=nullptr; Temp--)
+		for (Iterator Temp = Tail; Temp!=nullptr; Temp--)  
 			cout << *Temp << tab;
 		cout << endl;
 
 		cout << "\nКоличество элементов списка: " << size << endl;
 	}
 };
-
-
 
 
 //#define BASE_CHECK
@@ -448,5 +468,19 @@ void main()
 		cout << *it << tab;
 	cout <<"\n"<< endl;
 
+	cout << delimeter;
+	List list2(list);     // CopyConstructor
+	list2.print();
 
+	cout << delimeter;
+	List list3;
+	list3 = list;         // CopyAssignment
+	list3.print();
+
+	
+	//cout << delimeter;
+	//list2.insert(3,100);
+	//list2.print();
+
+	
 }
