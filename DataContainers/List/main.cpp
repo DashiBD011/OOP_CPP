@@ -21,8 +21,8 @@ class List
 			this->pNext = pNext;
 			this->pPrev = pPrev;
 #ifdef DEBUG
-			cout << "EConstructor:\t" << this << endl;
 #endif // DEBUG
+			cout << "EConstructor:\t" << this << endl;
 
 
 		}
@@ -527,9 +527,6 @@ void main()
 	List list1 = { 3,4,5,6 };
 	List list2 = { 4,7,1,9 };
 
-	List list3;
-	list3 = list1 + list2;
+	List list3 = list1 + list2;
 	list3.print();
-	list3.insert(3, 1000);
-	list3.print_reverse();
 }
