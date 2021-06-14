@@ -206,7 +206,15 @@ public:
 		}
 		cout << "LCopyConstructor:\t" << this << endl;
 	}
-	
+	List(List&& other)
+	{
+		this->size = other.size;
+		this->Head = other.Head;
+		this->Tail = other.Tail;
+		other.Head = other.Tail = nullptr;
+		cout << "MoveConstructor:\t" << this << endl;
+	}
+
 	~List()
 	{
 		//while (Head)pop_front();
@@ -243,6 +251,16 @@ public:
 			Temp = Temp->pNext;
 		}
 		cout << "LCopyAssignment:\t" << this << endl;
+		return *this;
+	}
+	List& operator=(List&& other)
+	{
+		while (Head)pop_front();
+		this->size = other.size;
+		this->Head = other.Head;
+		this->Tail = other.Tail;
+		other.Head = other.Tail = nullptr;
+		cout << "MoveAssignment:\t\t" << this << endl;
 		return *this;
 	}
 
@@ -390,9 +408,22 @@ public:
 	}
 };
 
+List operator+(const List& left, const List& right)
+{
+	List result;
+
+	for (List::Iterator it = left.begin(); it != left.end(); it++)
+		result.push_back(*it);
+
+	for (List::Iterator it = right.begin(); it != right.end(); it++)
+		result.push_back(*it);
+
+	return result;
+}
 
 //#define BASE_CHECK
 //#define SIZE_CONSTRUCTOR_AND_INDEX_OPERATOR
+//#define ITERATOR_CHECK
 
 void main()
 {
@@ -444,6 +475,7 @@ void main()
 	list.print();
 #endif // SIZE_CONSTRUCTOR_AND_INDEX_OPERATOR
 
+#ifdef ITERATOR_CHECK
 	List list = { 3,5,8,13,21 };
 	list.print();
 
@@ -452,7 +484,7 @@ void main()
 		cout << i << tab;
 	}
 	cout << endl;*/
-	
+
 	cout << delimeter;
 	cout << "Iterator:\n" << endl;
 	for (List::Iterator it = list.begin(); it != list.end(); it++)
@@ -466,7 +498,7 @@ void main()
 	cout << "ReverseIterator:\n" << endl;
 	for (List::ReverseIterator it = list.rbegin(); it != list.rend(); it--)
 		cout << *it << tab;
-	cout <<"\n"<< endl;
+	cout << "\n" << endl;
 
 	cout << delimeter;
 	List list2(list);     // CopyConstructor
@@ -477,10 +509,16 @@ void main()
 	list3 = list;         // CopyAssignment
 	list3.print();
 
-	
+
 	//cout << delimeter;
 	//list2.insert(3,100);
-	//list2.print();
+	//list2.print();  
+#endif // ITERATOR_CHECK
 
-	
+
+	List list1 = { 3,4,5,6 };
+	List list2 = { 4,7,1,9 };
+
+	List list3 = list1 + list2;
+	list3.print();
 }
