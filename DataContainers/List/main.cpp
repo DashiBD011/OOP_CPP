@@ -21,8 +21,8 @@ class List
 			this->pNext = pNext;
 			this->pPrev = pPrev;
 #ifdef DEBUG
-#endif // DEBUG
 			cout << "EConstructor:\t" << this << endl;
+#endif // DEBUG
 
 
 		}
@@ -166,7 +166,15 @@ public:
 	{
 		return Head;
 	}
+	Iterator begin()const
+	{
+		return Head;
+	}
 	Iterator end()
+	{
+		return nullptr;
+	}
+	Iterator end()const
 	{
 		return nullptr;
 	}
@@ -519,6 +527,9 @@ void main()
 	List list1 = { 3,4,5,6 };
 	List list2 = { 4,7,1,9 };
 
-	List list3 = list1 + list2;
+	List list3;
+	list3 = list1 + list2;
 	list3.print();
+	list3.insert(3, 1000);
+	list3.print_reverse();
 }
