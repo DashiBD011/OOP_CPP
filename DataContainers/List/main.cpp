@@ -171,7 +171,7 @@ public:
 	{
 		return Head;
 	}
-	Iterator begin()const
+	const Iterator begin()const
 	{
 		return Head;
 	}
@@ -179,7 +179,7 @@ public:
 	{
 		return nullptr;
 	}
-	Iterator end()const
+	const Iterator end()const
 	{
 		return nullptr;
 	}
@@ -209,15 +209,10 @@ public:
 			push_back(*it);
 		}
 	}
-	List(const List& other)
+	List(const List& other):List()
 	{
-		/*Element* Temp = other.Head;
-		while (Temp)
-		{
-			push_back(Temp->Data);
-			Temp = Temp->pNext;
-		}*/
-		for (Iterator it = other.begin(); it != other.end();it++)push_back(*it);
+		//for (Iterator it = other.begin(); it != other.end();it++)push_back(*it);
+		for (int i : other)push_back(i);
 		cout << "LCopyConstructor:\t\t" << this << endl;
 	}
 	List(List&& other)
@@ -259,12 +254,7 @@ public:
 	{
 		if (this == &other)return *this;
 		while (Head)pop_front();
-		Element* Temp = other.Head;
-		while (Temp)
-		{
-			push_back(Temp->Data);
-			Temp = Temp->pNext;
-		}
+		for (int i : other)push_back(i);
 		cout << "LCopyAssignment:\t\t" << this << endl;
 		return *this;
 	}
@@ -429,7 +419,7 @@ public:
 
 List operator+(const List& left, const List& right)
 {
-	List result;
+	/*List result;
 
 	for (List::Iterator it = left.begin(); it != left.end(); it++)
 		result.push_back(*it);
@@ -437,7 +427,10 @@ List operator+(const List& left, const List& right)
 	for (List::Iterator it = right.begin(); it != right.end(); it++)
 		result.push_back(*it);
 
-	return result;
+	return result;*/
+	List cat = left;
+	for (int i : right)cat.push_back(i);
+	return cat;
 }
 
 void main()
@@ -531,9 +524,6 @@ void main()
 	//list2.print();
 
 
-#endif // ITERATORS_CHECK
-
-
 	List list1 = { 3, 5, 8, 13, 21 };
 	list1.print();
 	List list2 = { 1, 2, 4, 6 };
@@ -544,7 +534,17 @@ void main()
 	list3.print();
 	cout << delimeter;
 	list3.print_reverse();
-	
 
 
+
+#endif // ITERATORS_CHECK
+
+	List list = { 2,4,6,8,7 };
+	List list2(list);     // CopyConstructor
+	list2.print();
+
+	cout << delimeter;
+	List list3;
+	list3 = list;         // CopyAssignment
+	list3.print();
 }
