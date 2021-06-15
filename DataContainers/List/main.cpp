@@ -539,12 +539,4 @@ void main()
 
 #endif // ITERATORS_CHECK
 
-	List list = { 2,4,6,8,7 };
-	List list2(list);     // CopyConstructor
-	list2.print();
-
-	cout << delimeter;
-	List list3;
-	list3 = list;         // CopyAssignment
-	list3.print();
 }
