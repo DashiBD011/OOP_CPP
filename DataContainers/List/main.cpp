@@ -1,4 +1,7 @@
-﻿#include<iostream>
+﻿#pragma warning(disable:6011)
+#pragma warning(disable:4326)
+#pragma warning(disable:26439)
+#include<iostream>
 using namespace std;
 using std::cout;
 using std::cin;
@@ -162,22 +165,23 @@ public:
 	{
 		return size;
 	}
+	const Iterator begin()const
+	{
+		return Head;
+	}
 	Iterator begin()
 	{
 		return Head;
 	}
-	Iterator begin()const
+	const Iterator end() const
 	{
-		return Head;
+		return nullptr;
 	}
 	Iterator end()
 	{
 		return nullptr;
 	}
-	Iterator end()const
-	{
-		return nullptr;
-	}
+	
 	ReverseIterator rbegin()
 	{
 		return Tail;
@@ -426,6 +430,10 @@ List operator+(const List& left, const List& right)
 	for (List::Iterator it = right.begin(); it != right.end(); it++)
 		result.push_back(*it);
 
+
+	for (List::Iterator it = right.begin(); it != right.end(); it++)
+		*it *= 10;
+
 	return result;
 }
 
@@ -526,7 +534,15 @@ void main()
 
 	List list1 = { 3,4,5,6 };
 	List list2 = { 4,7,1,9 };
+	List list1 = { 3, 5, 8, 13, 21 };
+	//list1.print();
+	List list2 = { 1, 2, 4, 6 };
+	//list2.print();
 
 	List list3 = list1 + list2;
 	list3.print();
+	cout << delimeter;
+	list2.print();
+
+
 }
