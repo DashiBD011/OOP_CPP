@@ -13,7 +13,7 @@ public:
 
 	void set_bin(int bin)
 	{
-		this->bin = bin;
+		
 	}
 	//      Constructors
 	Binary()
@@ -23,10 +23,8 @@ public:
 	}
 	Binary(int bin)
 	{
-		cout << "1argConstructor:\t" << this << endl;
 		this->bin = bin;		
-		
-		
+		cout << "1argConstructor:\t" << this << endl;
 	}
 	~Binary()
 	{
