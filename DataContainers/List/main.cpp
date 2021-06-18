@@ -7,15 +7,16 @@ using std::endl;
 #define tab "\t"
 #define delimeter "\n-----------------------------------------------\n"
 
+template<typename T>
 class List
 {
 	class Element
 	{
-		int Data;       // Значение элемента
+		T Data;       // Значение элемента
 		Element* pNext; // Указатель на след. элемент
 		Element* pPrev; // Указатель на пред. элемент
 	public:
-		Element(int Data, Element* pNext = nullptr, Element* pPrev = nullptr)
+		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr)
 		{
 			this->Data = Data;
 			this->pNext = pNext;
@@ -32,7 +33,9 @@ class List
 #endif // DEBUG
 
 		}
-		friend class List;
+		friend class List<T>;
+		
+
 	};
 
 	Element* Head;   // Указатель на начальный элемент
@@ -66,11 +69,11 @@ class List
 		{
 			return this->Temp != other.Temp;
 		}
-		const int& operator*()const
+		const T& operator*()const
 		{
 			return Temp->Data;
 		}
-		int& operator*()
+		T& operator*()
 		{
 			return Temp->Data;
 		}
@@ -98,29 +101,28 @@ public:
 		}
 		Iterator& operator++()
 		{
-			Temp = Temp->pNext;
+			BaseIterator::Temp = BaseIterator::Temp->pNext;
 			return *this;
 		}
 		Iterator operator++(int)
 		{
 			Iterator old = *this;
-			Temp = Temp->pNext;
+			BaseIterator::Temp = BaseIterator::Temp->pNext;
 			return old;
 		}
 		Iterator& operator--()
 		{
-			Temp = Temp->pPrev;
+			BaseIterator::Temp = BaseIterator::Temp->pPrev;
 			return *this;
 		}
 		Iterator operator--(int)
 		{
 			Iterator old = *this;
-			Temp = Temp->pPrev;
+			BaseIterator::Temp = BaseIterator::Temp->pPrev;
 			return old;
 		}
 	
 	};
-
 	class ReverseIterator:public BaseIterator
 	{
 	public:
@@ -139,24 +141,24 @@ public:
 		}
 		ReverseIterator& operator++()
 		{
-			Temp = Temp->pPrev;
+			BaseIterator::Temp = BaseIterator::Temp->pPrev;
 			return *this;
 		}
 		ReverseIterator operator++(int)
 		{
 			ReverseIterator old = *this;
-			Temp = Temp->pPrev;
+			BaseIterator::Temp = BaseIterator::Temp->pPrev;
 			return old;
 		}
 		ReverseIterator& operator--()
 		{
-			Temp = Temp->pNext;
+			BaseIterator::Temp = BaseIterator::Temp->pNext;
 			return *this;
 		}
 		ReverseIterator operator--(int)
 		{
 			ReverseIterator old = *this;
-			Temp = Temp->pNext;
+			BaseIterator::Temp = BaseIterator::Temp->pNext;
 			return old;
 		}
 
@@ -201,21 +203,21 @@ public:
 	{
 		while (size--)push_back(0);
 	}
-	List(const initializer_list<int>& il) :List()
+	List(const initializer_list<T>& il) :List()
 	{
 		cout << typeid(il.begin()).name() << endl;
-		for (int const* it = il.begin(); it != il.end(); it++)
+		for (T const* it = il.begin(); it != il.end(); it++)
 		{
 			push_back(*it);
 		}
 	}
-	List(const List& other):List()
+	List(const List<T>& other):List()
 	{
 		//for (Iterator it = other.begin(); it != other.end();it++)push_back(*it);
-		for (int i : other)push_back(i);
+		for (T i : other)push_back(i);
 		cout << "LCopyConstructor:\t\t" << this << endl;
 	}
-	List(List&& other)
+	List(List<T>&& other)
 	{
 		this->size = other.size;
 		this->Head = other.Head;
@@ -234,7 +236,7 @@ public:
 	
 	//               Operators:
 	
-	int& operator[](size_t Index)
+	T& operator[](size_t Index)
 	{
 		Element* Temp;
 		if (Index < size / 2)
@@ -250,15 +252,15 @@ public:
 		return Temp->Data;
 	}
 
-	List& operator=(const List& other)
+	List<T>& operator=(const List<T>& other)
 	{
 		if (this == &other)return *this;
 		while (Head)pop_front();
-		for (int i : other)push_back(i);
+		for (T i : other)push_back(i);
 		cout << "LCopyAssignment:\t\t" << this << endl;
 		return *this;
 	}
-	List& operator=(List&& other)
+	List<T>& operator=(List<T>&& other)
 	{
 		while (Head)pop_front();
 		this->size = other.size;
@@ -270,13 +272,13 @@ public:
 	}
 	//               Adding elements:
 
-	void insert_first_element(int Data)
+	void insert_first_element(T Data)
 	{
 		Head = Tail = new Element(Data);
 		size++;
 	}
 
-	void push_front(int Data)
+	void push_front(T Data)
 	{
 		if (Head == nullptr && Tail == nullptr)
 		{
@@ -287,7 +289,7 @@ public:
 		size++;
 	}
 
-	void push_back(int Data)
+	void push_back(T Data)
 	{
 		if (Head == nullptr && Tail == nullptr)
 		{
@@ -298,7 +300,7 @@ public:
 		size++;
 	}
 
-	void insert(unsigned int Index, int Data)
+	void insert(unsigned int Index, T Data)
 	{
 		
 		if (Index > size)return;
@@ -416,20 +418,14 @@ public:
 //#define BASE_CHECK
 //#define SIZE_CONSTRUCTOR_AND_INDEX_OPERATOR
 //#define ITERATORS_CHECK
+//#define COPY_METHODS_CHECK
+#define TEMPLATES_CHECK
 
-List operator+(const List& left, const List& right)
+template<typename T>
+List<T> operator+(const List<T>& left, const List<T>& right)
 {
-	/*List result;
-
-	for (List::Iterator it = left.begin(); it != left.end(); it++)
-		result.push_back(*it);
-	
-	for (List::Iterator it = right.begin(); it != right.end(); it++)
-		result.push_back(*it);
-
-	return result;*/
-	List cat = left;
-	for (int i : right)cat.push_back(i);
+	List<T> cat = left;
+	for (T i : right)cat.push_back(i);
 	return cat;
 }
 
@@ -524,19 +520,39 @@ void main()
 	//list2.print();
 
 
-	List list1 = { 3, 5, 8, 13, 21 };
+	
+
+
+
+#endif // ITERATORS_CHECK
+
+#ifdef COPY_METHODS_CHECK
+
+	List<int> list1 = { 3, 5, 8, 13, 21 };
 	list1.print();
-	List list2 = { 1, 2, 4, 6 };
+	List<int> list2 = { 1, 2, 4, 6 };
 	list2.print();
 
-	List list3;
+	List<int> list3;
 	list3 = list1 + list2;
 	list3.print();
 	cout << delimeter;
 	list3.print_reverse();
 
+#endif // COPY_METHODS_CHECK
 
+#ifdef TEMPLATES_CHECK
 
-#endif // ITERATORS_CHECK
+	List<int> i_list = { 3,5,8,13,21 };
+	i_list.print();
+	
+	List<double> d_list = { 2.5, 3.14, 5.2, 8.3 };
+	d_list.print();
+
+	List<string> s_list = { "What", "can", "I", "do" };
+	for (string i : s_list)cout << i << tab;
+	cout << endl;
+
+#endif // TEMPLATES_CHECK
 
 }
