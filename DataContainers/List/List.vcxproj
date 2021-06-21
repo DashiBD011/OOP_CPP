@@ -139,10 +139,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseIterator.cpp" />
+    <ClCompile Include="Element.cpp" />
+    <ClCompile Include="Iterator.cpp" />
+    <ClCompile Include="List.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ReverseIterator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseIterator.h" />
+    <ClInclude Include="Element.h" />
+    <ClInclude Include="Iterator.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="ReverseIterator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
