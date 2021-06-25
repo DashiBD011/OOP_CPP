@@ -1,5 +1,6 @@
+#include"List.h"
 #include"Iterator.h"
-template<typename T>List<T>::Iterator::Iterator(Element* Temp) :BaseIterator(Temp)
+template<typename T> List<T>::Iterator::Iterator(Element* Temp) :BaseIterator(Temp)
 {
 
 #ifdef DEBUG

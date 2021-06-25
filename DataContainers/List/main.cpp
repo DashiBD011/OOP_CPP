@@ -1,18 +1,18 @@
 ﻿#include"List.h"
 //#include"List.cpp"
-//#include"Element.h"
-//#include"Element.cpp"
-//#include"Iterator.h"
-//#include"Iterator.cpp"
-//#include"ReverseIterator.h"
-//#include"ReverseIterator.cpp"
+#include"Element.h"
+#include"Element.cpp"
+#include"Iterator.h"
+#include"Iterator.cpp"
+#include"ReverseIterator.h"
+#include"ReverseIterator.cpp"
 
 
 //#define BASE_CHECK
 //#define SIZE_CONSTRUCTOR_AND_INDEX_OPERATOR
 //#define ITERATORS_CHECK
-//#define COPY_METHODS_CHECK
-#define TEMPLATES_CHECK
+#define COPY_METHODS_CHECK
+//#define TEMPLATES_CHECK
 
 template<typename T>
 List<T> operator+(const List<T>& left, const List<T>& right)
