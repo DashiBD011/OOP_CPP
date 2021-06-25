@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 using std::cout;
 using std::cin;
 using std::endl;
@@ -37,13 +37,29 @@ public:
 	{
 		return Root;
 	}
+	Element* getLeft()const
+	{
+		return Root->pLeft;
+
+	}
+	Element* getRight()
+	{
+		return Root->pRight;
+	}
 	Tree() :Root(nullptr)
 	{
 		cout << "TConstructor:\t" << this << endl;
 	}
+	Tree(Element* Root)
+	{
+		this->Root = Root;
+	}
 	~Tree()
 	{
+#ifdef DEBUG
+#endif // DEBUG
 		cout << "TDestructor:\t" << this << endl;
+
 	}
 	
 	void insert(int Data, Element* Root)
@@ -66,6 +82,7 @@ public:
 			else Root->pRight = new Element(Data);
 		}
 	}
+	
 	int max_value(Element* Root)
 	{
 		return Root->pRight ? max_value(Root->pRight) : Root->Data;
@@ -81,6 +98,15 @@ public:
 	{
 		return Root ? count(Root->pLeft) + count(Root->pRight) + 1 : 0;
 	}
+	int sum(Element* Root)
+	{
+		return Root ? sum(Root->pLeft) +  sum(Root->pRight) + Root->Data : 0;
+		
+	}
+	double avg()
+	{
+		return (double)sum(this->Root) / count(this->Root);
+	}
 	void print(Element* Root)
 	{
 		if (Root == nullptr)return;
@@ -88,6 +114,36 @@ public:
 		cout << Root->Data << tab;
 		print(Root->pRight);
 	}
+	 
+	////////////////////////////////////
+	//Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð»ÑƒÑ‡ÑˆÐµ Ñ Ð½Ðµ ÑÐ¼Ð¾Ð³ Ð¿Ñ€Ð¸Ð´ÑƒÐ¼Ð°Ñ‚ÑŒ//
+
+	void insert2(int Data)
+	{
+		insert(Data, this->Root);
+	}
+	int min_value2()
+	{
+		return min_value(this->Root);
+	}
+	int max_value2()
+	{
+		return max_value(this->Root);
+	}
+	int count2()
+	{
+		return count(this->Root);
+	}
+	int sum2()
+	{
+		return sum(this->Root);
+	}
+	void print2()
+	{
+		print(this->Root);
+	}
+	
+
 };
 
 class UniqueTree :public Tree
@@ -119,25 +175,28 @@ void main()
 {
 	setlocale(LC_ALL, "");
 	int n;
-	cout << "Ââåäèòå ðàçìåð äåðåâà: "; cin >> n;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð´ÐµÑ€ÐµÐ²Ð°: "; cin >> n;
 	Tree tree;
+
 	for (int i = 0; i < n; i++)
 	{
-		tree.insert(rand()%100,tree.getRoot());
+		tree.insert2(rand()%10);
 	}
-	tree.print(tree.getRoot());
+	tree.print2();
 	cout << endl;
-	cout << "Ìèíèìàëüíîå çíà÷åíèå â äåðåâå: " << (tree.min_value(tree.getRoot())) << endl;
-	cout << "Ìàêñèìàëüíîå çíà÷åíèå â äåðåâå: " << (tree.max_value(tree.getRoot())) << endl;
-	cout << "Êîëè÷åñòâî ýëåìåíòîâ äåðåâà: " << tree.count(tree.getRoot()) << endl;
+	cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ:  " << tree.min_value2() << endl;
+	cout << "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.max_value2() << endl;
+	cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð´ÐµÑ€ÐµÐ²Ð°:    " << tree.count2() << endl;
+	cout << "Ð¡ÑƒÐ¼Ð¼Ð° Ð²ÑÐµÑ… ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð´ÐµÑ€ÐµÐ²Ð°:    " << tree.sum2() << endl;
+	cout << "Ð¡Ñ€ÐµÐ´Ð½ÐµÐµ Ð°Ñ€Ð¸Ñ„Ð¼ÐµÑ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð´ÐµÑ€ÐµÐ²Ð°: " << tree.avg() << endl;
 
 	cout << delimeter;
 	UniqueTree u_tree;
 	for (int i = 0; i < n; i++)
 	{
-		u_tree.insert(rand() % 100, u_tree.getRoot());
+		u_tree.insert(rand() % 10, u_tree.getRoot());
 	}
 	u_tree.print(u_tree.getRoot());
 	cout << endl;
-	cout << "Êîëè÷åñòâî ýëåìåíòîâ äåðåâà: " << u_tree.count(u_tree.getRoot()) << endl;
+	cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð´ÐµÑ€ÐµÐ²Ð°: " << u_tree.count(u_tree.getRoot()) << endl;
 }
