@@ -229,20 +229,20 @@ private:
 	 
 };
 
-template<typename T>
+template<class T>
 class UniqueTree :public Tree<T>
 {
 private:
-	void insert(T Data, typename Tree<T>::Element* Root)
+	void insert(T Data, Element* Root)
 	{
-		if (this->Root == nullptr)this->Root = new typename Tree<T>::Element(Data);
+		if (this->Root == nullptr)this->Root = new Element(Data);
 		if (Root == nullptr)return;
 		if (Data < Root->Data)
 		{
 			/*if (Root->pLeft == nullptr)Root->pLeft = new Element(Data);
 			else insert(Data, Root->pLeft);*/
 			if (Root->pLeft)insert(Data, Root->pLeft);
-			else Root->pLeft = new typename Tree<T>::Element(Data);
+			else Root->pLeft = new Element(Data);
 
 		}
 		if(Data>Root->Data)
@@ -250,7 +250,7 @@ private:
 			/*if (Root->pRight == nullptr)Root->pRight = new Element(Data);
 			else insert(Data, Root->pRight);*/
 			if (Root->pRight)insert(Data, Root->pRight);
-			else Root->pRight = new typename Tree<T>::Element(Data);
+			else Root->pRight = new Element(Data);
 		}
 	}
 public:
