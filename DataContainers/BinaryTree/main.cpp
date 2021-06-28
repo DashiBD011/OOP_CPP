@@ -7,13 +7,15 @@ using namespace std;
 #define delimeter "\n----------------------------------------------------------\n"
 //#define DEBUG
 
+
+
 template<typename T>
 class Tree
 {
 protected:
-	
 	class Element
 	{
+	protected:
 		T Data;
 		Element* pLeft;
 		Element* pRight;
@@ -38,6 +40,7 @@ protected:
 		}
 		friend class Tree<T>;
 		friend class UniqueTree<T>;
+		
 	}*Root;
 public:
 	Element* getRoot()const
@@ -230,16 +233,16 @@ template<typename T>
 class UniqueTree :public Tree<T>
 {
 private:
-	void insert(T Data, Element* Root)
+	void insert(T Data, typename Tree<T>::Element* Root)
 	{
-		if (this->Root == nullptr)this->Root = new Element(Data);
+		if (this->Root == nullptr)this->Root = new typename Tree<T>::Element(Data);
 		if (Root == nullptr)return;
 		if (Data < Root->Data)
 		{
 			/*if (Root->pLeft == nullptr)Root->pLeft = new Element(Data);
 			else insert(Data, Root->pLeft);*/
 			if (Root->pLeft)insert(Data, Root->pLeft);
-			else Root->pLeft = new Element(Data);
+			else Root->pLeft = new typename Tree<T>::Element(Data);
 
 		}
 		if(Data>Root->Data)
@@ -247,7 +250,7 @@ private:
 			/*if (Root->pRight == nullptr)Root->pRight = new Element(Data);
 			else insert(Data, Root->pRight);*/
 			if (Root->pRight)insert(Data, Root->pRight);
-			else Root->pRight = new Element(Data);
+			else Root->pRight = new typename Tree<T>::Element(Data);
 		}
 	}
 public:
@@ -257,7 +260,7 @@ public:
 	}
 };
 
-//#define BASE_CHECK
+#define BASE_CHECK
 
 void main()
 {
@@ -266,7 +269,7 @@ void main()
 #ifdef BASE_CHECK
 	int n;
 	cout << "Введите размер дерева: "; cin >> n;
-	Tree tree;
+	Tree<int> tree;
 
 	for (int i = 0; i < n; i++)
 	{
@@ -281,7 +284,7 @@ void main()
 	cout << "Среднее арифметическое элементов дерева: " << tree.avg() << endl;
 
 	cout << delimeter;
-	UniqueTree u_tree;
+	UniqueTree<int> u_tree;
 	for (int i = 0; i < n; i++)
 	{
 		u_tree.insert(rand() % 10);
@@ -294,17 +297,14 @@ void main()
 	tree2 = tree;
 	tree2.print();*/
 	cout << delimeter << endl;
-	int value;
-	cout << "Введите значение удаляемого элемента: "; cin >> value;
-	tree.erase(value);
-	tree.print();
+	
 #endif // BASE_CHECK
 
-	Tree<int> tree = { 50,25,80,16,32,64,85,12,22,31,58,77,84,91 };
-	tree.print();
+	Tree<int> tree1 = { 50,25,80,16,32,64,85,12,22,31,58,77,84,91 };
+	tree1.print();
 	int value;
 	cout << "Введите значение удаляемого элемента: "; cin >> value;
-	tree.erase(value);
-	tree.print();
+	tree1.erase(value);
+	tree1.print();
 	
 }
