@@ -7,17 +7,18 @@ using namespace std;
 #define delimeter "\n----------------------------------------------------------\n"
 //#define DEBUG
 
-
+template<typename T>
 class Tree
 {
 protected:
+	
 	class Element
 	{
-		int Data;
+		T Data;
 		Element* pLeft;
 		Element* pRight;
 	public:
-		Element(int Data, Element* pLeft = nullptr, Element* pRight = nullptr) : Data(Data), pLeft(pLeft), pRight(pRight)
+		Element(T Data, Element* pLeft = nullptr, Element* pRight = nullptr) : Data(Data), pLeft(pLeft), pRight(pRight)
 		{
 #ifdef DEBUG
 			cout << "EConstructor:\t" << this << endl;
@@ -35,8 +36,8 @@ protected:
 		{
 			return pLeft == pRight;
 		}
-		friend class Tree;
-		friend class UniqueTree;
+		friend class Tree<T>;
+		friend class UniqueTree<T>;
 	}*Root;
 public:
 	Element* getRoot()const
@@ -49,14 +50,14 @@ public:
 		cout << "TConstructor:\t" << this << endl;
 	}
 	
-	Tree(const initializer_list<int>& il) :Tree()
+	Tree(const initializer_list<T>& il) :Tree()
 	{
-		for (int const* it = il.begin(); it != il.end(); it++)
+		for (T const* it = il.begin(); it != il.end(); it++)
 		{
 			insert(*it,Root);
 		}
 	}
-	Tree(const Tree& other):Root()
+	Tree(const Tree<T>& other):Root()
 	{
 		copy(other.Root);
 
@@ -74,11 +75,11 @@ public:
 
 	}
 
-	void insert(int Data)
+	void insert(T Data)
 	{
 		insert(Data, this->Root);
 	}
-	void erase(int Data)
+	void erase(T Data)
 	{
 		erase(Data, this->Root);
 	}
@@ -87,11 +88,11 @@ public:
 		clear(Root);
 		this->Root = nullptr;
 	}
-	int min_value()const
+	T min_value()const
 	{
 		return min_value(this->Root);
 	}
-	int max_value()const
+	T max_value()const
 	{
 		return max_value(this->Root);
 	}
@@ -99,13 +100,13 @@ public:
 	{
 		return count(this->Root);
 	}
-	int sum()const
+	T sum()const
 	{
 		return sum(this->Root);
 	}
-	double avg()const
+	T avg()const
 	{
-		return (double)sum(this->Root) / count(this->Root);
+		return (T)sum(this->Root) / count(this->Root);
 	}
 	void print()const
 	{
@@ -113,7 +114,7 @@ public:
 		cout << endl;
 	}
 
-	Tree& operator=(const Tree& other)
+	Tree<T>& operator=(const Tree<T>& other)
 	{
 		if (this == &other)return *this;
 		clear(Root);
@@ -124,7 +125,7 @@ public:
 
 private:
 
-	void insert(int Data, Element* Root)
+	void insert(T Data, Element* Root)
 	{
 		if (this->Root == nullptr)this->Root = new Element(Data);
 		if (Root == nullptr)return;
@@ -145,7 +146,7 @@ private:
 		}
 	}
 	
-	void erase(int Data, Element*& Root)
+	void erase(T Data, Element*& Root)
 	{
 		if (Root == nullptr)return;
 		erase(Data, Root->pLeft);
@@ -183,13 +184,13 @@ private:
 		delete Root;
 	}
 
-	int max_value(Element* Root)const
+	T max_value(Element* Root)const
 	{
 		return Root->pRight ? max_value(Root->pRight) : Root->Data;
 	
 	}
 
-	int min_value(Element* Root)const
+	T min_value(Element* Root)const
 	{
 		if (Root->pLeft == nullptr)return Root->Data;
 		else return min_value(Root->pLeft);
@@ -201,7 +202,7 @@ private:
 		return Root ? count(Root->pLeft) + count(Root->pRight) + 1 : 0;
 	}
 
-	int sum(Element* Root)const
+	T sum(Element* Root)const
 	{
 		return Root ? sum(Root->pLeft) +  sum(Root->pRight) + Root->Data : 0;
 		
@@ -225,9 +226,11 @@ private:
 	 
 };
 
-class UniqueTree :public Tree
+template<typename T>
+class UniqueTree :public Tree<T>
 {
-	void insert(int Data, Element* Root)
+private:
+	void insert(T Data, Element* Root)
 	{
 		if (this->Root == nullptr)this->Root = new Element(Data);
 		if (Root == nullptr)return;
@@ -248,7 +251,7 @@ class UniqueTree :public Tree
 		}
 	}
 public:
-	void insert(int Data)
+	void insert(T Data)
 	{
 		insert(Data, this->Root);
 	}
@@ -297,7 +300,7 @@ void main()
 	tree.print();
 #endif // BASE_CHECK
 
-	Tree tree = { 50,25,80,16,32,64,85,12,22,31,58,77,84,91 };
+	Tree<int> tree = { 50,25,80,16,32,64,85,12,22,31,58,77,84,91 };
 	tree.print();
 	int value;
 	cout << "Введите значение удаляемого элемента: "; cin >> value;
