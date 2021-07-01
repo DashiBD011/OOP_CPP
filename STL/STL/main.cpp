@@ -1,4 +1,4 @@
-#include<iostream>
+п»ї#include<iostream>
 #include<array>
 #include<vector>
 using std::cin;
@@ -15,7 +15,7 @@ using std::endl;
 template<typename T>void vector_properties(const std::vector<T>& vec)
 {
 	cout << "size:     " << vec.size() << endl;
-	cout << "Capacity: " << vec.capacity() << endl;  // вместительность
+	cout << "Capacity: " << vec.capacity() << endl;  // РІРјРµСЃС‚РёС‚РµР»СЊРЅРѕСЃС‚СЊ
 	cout << "Maxsize:  " << vec.max_size() << endl;
 }
 template<typename T>void vector_print(const std::vector<T>& vec)
@@ -40,7 +40,7 @@ void main()
 	setlocale(LC_ALL, "Russian");
 
 #ifdef STL_ARRAY
-	// array - это контейнер, который хранит данные в виде статического массива.
+	// array - СЌС‚Рѕ РєРѕРЅС‚РµР№РЅРµСЂ, РєРѕС‚РѕСЂС‹Р№ С…СЂР°РЅРёС‚ РґР°РЅРЅС‹Рµ РІ РІРёРґРµ СЃС‚Р°С‚РёС‡РµСЃРєРѕРіРѕ РјР°СЃСЃРёРІР°.
 	const int n = 5;
 	std::array<int, n> arr = { 3,5,8,13,21 };
 
@@ -53,7 +53,7 @@ void main()
 #endif // STL_ARRAY
 
 #ifdef STL_VECTOR
-	// vector - это контейнер, который хранит данные в виде динамического массива.
+	// vector - СЌС‚Рѕ РєРѕРЅС‚РµР№РЅРµСЂ, РєРѕС‚РѕСЂС‹Р№ С…СЂР°РЅРёС‚ РґР°РЅРЅС‹Рµ РІ РІРёРґРµ РґРёРЅР°РјРёС‡РµСЃРєРѕРіРѕ РјР°СЃСЃРёРІР°.
 
 	int index;
 	int value;
@@ -64,14 +64,14 @@ void main()
     //std::vector<int>::iterator it;
 	//it = vec.begin();
 
-	cout << "Введите индекс добавляемого элемента: "; cin >> index;
-	cout << "Введите значение: "; cin >> value;
+	cout << "Р’РІРµРґРёС‚Рµ РёРЅРґРµРєСЃ РґРѕР±Р°РІР»СЏРµРјРѕРіРѕ СЌР»РµРјРµРЅС‚Р°: "; cin >> index;
+	cout << "Р’РІРµРґРёС‚Рµ Р·РЅР°С‡РµРЅРёРµ: "; cin >> value;
 	vec.insert(vec.begin()+index, value);        // insert()
 	vector_print(vec);
 
 	cout << delimeter << endl;
 
-	cout << "Введите индекс удаляемого элемента:   "; cin >> index;
+	cout << "Р’РІРµРґРёС‚Рµ РёРЅРґРµРєСЃ СѓРґР°Р»СЏРµРјРѕРіРѕ СЌР»РµРјРµРЅС‚Р°:   "; cin >> index;
 	vec.erase(vec.begin() + index);              // erase()
 	vector_print(vec);
 
@@ -79,15 +79,14 @@ void main()
 
 	vector_reverse_print(vec);
 
-
 #ifdef EXCEPTIONS_IN_VECTOR
 	try
 	{
 		for (int i = 0; i < vec.capacity(); i++)
 		{
 			// [] - index operator(subscript operator)
-			//cout << vec[i] << tab;   // Oператор[] не бросает исключение при выходе за пределы вектора
-			cout << vec.at(i) << tab;  // Mетод at() бросает исключение(out of range exception) при выходе за пределы вектора
+			//cout << vec[i] << tab;   // OРїРµСЂР°С‚РѕСЂ[] РЅРµ Р±СЂРѕСЃР°РµС‚ РёСЃРєР»СЋС‡РµРЅРёРµ РїСЂРё РІС‹С…РѕРґРµ Р·Р° РїСЂРµРґРµР»С‹ РІРµРєС‚РѕСЂР°
+			cout << vec.at(i) << tab;  // MРµС‚РѕРґ at() Р±СЂРѕСЃР°РµС‚ РёСЃРєР»СЋС‡РµРЅРёРµ(out of range exception) РїСЂРё РІС‹С…РѕРґРµ Р·Р° РїСЂРµРґРµР»С‹ РІРµРєС‚РѕСЂР°
 		}
 		cout << endl;
 	}
