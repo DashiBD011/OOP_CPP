@@ -118,6 +118,7 @@ class Car
 	Engine engine;
 	unsigned int speed;
 	unsigned int MAX_SPEED;
+	unsigned int accelleration;
 
 	bool driver_inside;
 
@@ -126,6 +127,7 @@ class Car
 		std::thread main_thread;
 		std::thread panel_thread;
 		std::thread idle_thread;
+		std::thread free_wheeling_thread;
 	}control;
 public:
 	/*Car(unsigned int MAX_SPEED)
@@ -137,8 +139,13 @@ public:
 	{
 		cout << "Your car is ready to go. Press enter to get in.\t" << this << endl;
 	}*/
-	Car(double engine_consumption, unsigned int tank_volume)
-		:engine(engine_consumption), tank(tank_volume), speed(0), driver_inside(false)
+	Car(double engine_consumption, unsigned int tank_volume) :
+		engine(engine_consumption),
+		tank(tank_volume), 
+		speed(0),
+		accelleration(5),
+		driver_inside(false),
+		MAX_SPEED(MAX_SPEED >= 100 && MAX_SPEED <= 350 ? MAX_SPEED : DEFAULT_MAX_SPEED)
 	{
 		cout << "Your car is ready to go. Press enter to get in.\t" << this << endl;
 	}
@@ -172,6 +179,36 @@ public:
 		system("CLS");
 		cout << "This is your car, Press Enter to get in" << endl;
 	}
+	void start()
+	{
+		if (driver_inside && tank.get_fuel_level() > 0)
+		{
+			engine.start();
+			control.idle_thread = thread(&Car::engine_idle, this);
+		}
+	}
+	void stop()
+	{
+		engine.stop();
+		if (control.idle_thread.joinable())control.idle_thread.join();
+	}
+	void engine_idle()
+	{
+		while (tank.give_fuel(engine.get_consumption_per_second())&&engine.is_started())
+		{
+			std::this_thread::sleep_for(1s);
+		}
+		engine.stop();
+	}
+	void free_wheeling()
+	{
+		while (speed > 0)
+		{
+			speed--;
+			if (speed < 0)speed = 0;
+			this_thread::sleep_for(1s);
+		}
+	}
 	void control_car()
 	{
 		char key;
@@ -188,16 +225,38 @@ public:
 				tank.fill(amount);
 				break;
 			case 'I': case 'i': //Ignition - зажигание
-				engine.is_started() ? engine.stop() : engine.start();
+				engine.is_started() ? stop() : start();
 				break;
 			case 'W':case 'w':case ArrowUp:  //Gas
-
+				/*if (speed < MAX_SPEED && tank.get_fuel_level() > 0 && engine.is_started())
+				{
+					speed += 1;
+				}*/
+				if (engine.is_started()&&speed<MAX_SPEED)
+				{
+					speed += accelleration;
+					if (control.free_wheeling_thread.get_id() == std::thread::id())
+						control.free_wheeling_thread=std::thread(&Car::free_wheeling,this);
+				
+				}
 				break;
 			case ArrowDown:case Space:case 'S':case 's':
+				if (speed > 0)
+				{
+					speed -= accelleration;
+					if (speed < accelleration)
+					{
+						speed = 0;
+						if (control.free_wheeling_thread.joinable())
+							control.free_wheeling_thread.join();
+					}
+				}
 				break;
 			case Escape:
+				stop();
 				get_out();
 			}
+			if (tank.get_fuel_level() == 0 && control.idle_thread.joinable())control.idle_thread.join();
 		} while (key != 27);
 	}
 	void info()const
