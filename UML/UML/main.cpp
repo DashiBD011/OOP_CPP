@@ -168,14 +168,77 @@ public:
 	{
 		while (driver_inside)
 		{
-			system("CLS");
+			/*system("CLS");
 			cout << "Engine is " << (engine.is_started() ? "started" : "stopped") << endl;
 			cout << "Fuel level: " << tank.get_fuel_level() << " liters ";
 			if (tank.get_fuel_level() < MIN_FUEL_LEVEL)cout << "LOW FUEL";
 			cout << endl;
 			cout << "Speed: " << speed << " km/h" << endl;
+			std::this_thread::sleep_for(1s);*/
+			/*
+			============================
+			||    123    ||     20    ||
+			||    km/h   ||   liters  ||
+			============================
+			||           ||  low fuel ||
+			============================
+
+
+			*/
+			system("CLS");
+
+			if(tank.get_fuel_level()<MIN_FUEL_LEVEL)
+				system("color 04");
+
+			printf("============================\n");
+			if (speed<10)
+			{
+				if (tank.get_fuel_level() < 10)
+				{
+					printf("||     %u     || %f  ||\n", speed, tank.get_fuel_level());
+				}
+				else printf("||     %u     || %f ||\n", speed, tank.get_fuel_level());
+				
+			}
+			else if (speed > 9 && speed < 100)
+			{
+				if (tank.get_fuel_level() < 10)
+				{
+					printf("||     %u    || %f  ||\n", speed, tank.get_fuel_level());
+				}
+				else printf("||     %u    || %f ||\n", speed, tank.get_fuel_level());
+			}
+			else
+			{
+				if (tank.get_fuel_level() < 10)
+				{
+					printf("||     %u   || %f  ||\n", speed, tank.get_fuel_level());
+				}
+				else printf("||     %u   || %f ||\n", speed, tank.get_fuel_level());
+			}
+
+			printf("||    km/h   ||   liters   /\n");
+			//printf("============================\n"); 
+			printf("|\\___________/\\___________/|\n"); 
+
+			char board[] =
+			{
+				'|' , '|' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , '|' , '|',
+				'=' , '=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=',
+			};
+			int o = 0;
+			for (int i = 0; i < 2; i++)
+			{
+				for (int j = 0; j < 28; j++)
+				{
+					cout << board[o++];					
+				}
+				cout << endl;
+			}
+
 			std::this_thread::sleep_for(1s);
 		}
+		system("color 0F");
 		system("CLS");
 		cout << "This is your car, Press Enter to get in" << endl;
 	}
@@ -267,8 +330,6 @@ public:
 		cout << "Current speed:\t" << speed << "km/h\n";
 	}
 
-
-
 };
 
 //#define TANK_CHECK
@@ -296,12 +357,28 @@ void main()
 	//engine.start();
 #endif // ENGINE_CHECK
 
-	Car car(8, 40);
-	car.info();
-	car.control_car();
-	/*for (int i = 0; i < 256; i++)
+	/*for (int i = 0; i < 20; i++)
 	{
-		cout << i << "\t" << (char)i << endl;
+		for (int j = 0; j < 5; j++)
+		{
+			cout << "*";
+		}
+		cout << endl;
 	}*/
+	/*cout << "   __________      _________" << endl;
+	cout << "  /          \\    /         \\" << endl;;
+	cout << " /  123 km/h  \\  /  10,0000L \\" << endl;
+	cout << "/______________\\/_____________\\"<<endl;
+	cout << "|_____________________________|" << endl;*/
+	setlocale(LC_ALL, "C");
+	cout << "   __________         _________" << endl;
+	cout << "  /          \\_______/         \\" << endl;;
+	cout << " /  123 km/h /       \\ 10,0000L \\" << endl;
+	cout << "/___________/_________\\__________\\" << endl;
+	cout << "|________________________________|" << endl;
+	//Car car(8, 40);
+	//car.info();
+	//car.control_car();
+	
 
 }
