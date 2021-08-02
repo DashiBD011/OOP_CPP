@@ -260,7 +260,6 @@ public:
 				cout << endl;
 			}
 
-
 			std::this_thread::sleep_for(1s);
 		}
 		system("color 0F");
@@ -382,28 +381,7 @@ void main()
 	//engine.start();
 #endif // ENGINE_CHECK
 
-	/*for (int i = 0; i < 20; i++)
-	{
-		for (int j = 0; j < 5; j++)
-		{
-			cout << "*";
-		}
-		cout << endl;
-	}*/
-	/*cout << "   __________      _________" << endl;
-	cout << "  /          \\    /         \\" << endl;;
-	cout << " /  123 km/h  \\  /  10,0000L \\" << endl;
-	cout << "/______________\\/_____________\\"<<endl;
-	cout << "|_____________________________|" << endl;*/
-	//setlocale(LC_ALL, "C");
-	//system("CHCP 866");
-	//cout << "   __________          _________" << endl;
-	//cout << "  /          \\________/         \\" << endl;;
-	//cout << " /  123 km/h /        \\ 10,0000L \\" << endl;
-	//cout << "/___________/__________\\__________\\" << endl;
-	//cout << "|_________________________________|" << endl;
-
-
+	
 	Car car(8, 40);
 	car.info();
 	car.control_car();
