@@ -1,5 +1,6 @@
-#include<iostream>
+п»ї#include<iostream>
 #include<thread>
+#include<Windows.h>
 #include<conio.h>
 using namespace std;
 using namespace std::literals::chrono_literals;
@@ -11,7 +12,7 @@ const unsigned int DEFAULT_MAX_SPEED = 250;
 
 enum Keys
 {
-	Escape = 27,
+	Escape1 = 27,
 	Enter = 13,
 	Space = 32,
 	ArrowUp = 72,
@@ -21,9 +22,9 @@ enum Keys
 };
 class Tank
 {
-	// Топливный бак
-	const unsigned int VOLUME;   // объем бака
-	double fuel_level;           // уровень топлива
+	// РўРѕРїР»РёРІРЅС‹Р№ Р±Р°Рє
+	const unsigned int VOLUME;   // РѕР±СЉРµРј Р±Р°РєР°
+	double fuel_level;           // СѓСЂРѕРІРµРЅСЊ С‚РѕРїР»РёРІР°
 
 public:
 	unsigned int get_volume()const
@@ -36,7 +37,7 @@ public:
 	}
 	void fill(double amount)
 	{
-		// amount - кол-во топлива
+		// amount - РєРѕР»-РІРѕ С‚РѕРїР»РёРІР°
 		if (amount < 0)return;
 		if (fuel_level + amount < VOLUME)fuel_level += amount;
 		else fuel_level = VOLUME;
@@ -65,10 +66,10 @@ public:
 
 class Engine
 {
-	// Этот класс описывает двигатель
+	// Р­С‚РѕС‚ РєР»Р°СЃСЃ РѕРїРёСЃС‹РІР°РµС‚ РґРІРёРіР°С‚РµР»СЊ
 
-	const double CONSUMPTION;       // расход 100км
-	double consumption_per_second;  // расход за одну секунду
+	const double CONSUMPTION;       // СЂР°СЃС…РѕРґ 100РєРј
+	double consumption_per_second;  // СЂР°СЃС…РѕРґ Р·Р° РѕРґРЅСѓ СЃРµРєСѓРЅРґСѓ
 
 	bool started;
 
@@ -141,7 +142,7 @@ public:
 	}*/
 	Car(double engine_consumption, unsigned int tank_volume) :
 		engine(engine_consumption),
-		tank(tank_volume), 
+		tank(tank_volume),
 		speed(0),
 		accelleration(5),
 		driver_inside(false),
@@ -156,85 +157,109 @@ public:
 	void get_in()
 	{
 		driver_inside = true;
-		control.panel_thread = thread(&Car::panel, this);    // Запускаем метод panel в потоке
+		control.panel_thread = thread(&Car::panel, this);    // Р—Р°РїСѓСЃРєР°РµРј РјРµС‚РѕРґ panel РІ РїРѕС‚РѕРєРµ
 	}
 	void get_out()
 	{
 		driver_inside = false;
-		if (control.panel_thread.joinable())control.panel_thread.join();   // Останавливаем поток, отображающий панель приборов 
+		if (control.panel_thread.joinable())control.panel_thread.join();   // РћСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕС‚РѕРє, РѕС‚РѕР±СЂР°Р¶Р°СЋС‰РёР№ РїР°РЅРµР»СЊ РїСЂРёР±РѕСЂРѕРІ 
 
 	}
 	void panel()const
 	{
 		while (driver_inside)
 		{
-			/*system("CLS");
-			cout << "Engine is " << (engine.is_started() ? "started" : "stopped") << endl;
-			cout << "Fuel level: " << tank.get_fuel_level() << " liters ";
-			if (tank.get_fuel_level() < MIN_FUEL_LEVEL)cout << "LOW FUEL";
-			cout << endl;
-			cout << "Speed: " << speed << " km/h" << endl;
-			std::this_thread::sleep_for(1s);*/
-			/*
-			============================
-			||    123    ||     20    ||
-			||    km/h   ||   liters  ||
-			============================
-			||           ||  low fuel ||
-			============================
-
-
-			*/
 			system("CLS");
+			setlocale(LC_ALL, "C");
+			//if(tank.get_fuel_level()<MIN_FUEL_LEVEL)
+			//	system("color 04");
+			//
+			//printf("============================\n");
+			//if (speed<10)
+			//{
+			//	if (tank.get_fuel_level() < 10)
+			//	{
+			//		printf("||     %u     || %f  ||\n", speed, tank.get_fuel_level());
+			//	}
+			//	else printf("||     %u     || %f ||\n", speed, tank.get_fuel_level());
+			//	
+			//}
+			//else if (speed > 9 && speed < 100)
+			//{
+			//	if (tank.get_fuel_level() < 10)
+			//	{
+			//		printf("||     %u    || %f  ||\n", speed, tank.get_fuel_level());
+			//	}
+			//	else printf("||     %u    || %f ||\n", speed, tank.get_fuel_level());
+			//}
+			//else
+			//{
+			//	if (tank.get_fuel_level() < 10)
+			//	{
+			//		printf("||     %u   || %f  ||\n", speed, tank.get_fuel_level());
+			//	}
+			//	else printf("||     %u   || %f ||\n", speed, tank.get_fuel_level());
+			//}
+			//printf("||    km/h   ||   liters   /\n");
+			//printf("|\\___________/\\___________/|\n"); 
+			//
+			//char board[] =
+			//{
+			//	'|' , '|' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , '|' , '|',
+			//	'=' , '=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=',
+			//};
+			//int o = 0;
+			//for (int i = 0; i < 2; i++)
+			//{
+			//	for (int j = 0; j < 28; j++)
+			//	{
+			//		cout << board[o++];					
+			//	}
+			//	cout << endl;
+			//}
 
-			if(tank.get_fuel_level()<MIN_FUEL_LEVEL)
-				system("color 04");
+			char s1 = speed / 100 + 48;
+			char s2 = (speed / 10) % 10 + 48;
+			char s3 = speed % 10 + 48;
 
-			printf("============================\n");
-			if (speed<10)
-			{
-				if (tank.get_fuel_level() < 10)
-				{
-					printf("||     %u     || %f  ||\n", speed, tank.get_fuel_level());
-				}
-				else printf("||     %u     || %f ||\n", speed, tank.get_fuel_level());
-				
-			}
-			else if (speed > 9 && speed < 100)
-			{
-				if (tank.get_fuel_level() < 10)
-				{
-					printf("||     %u    || %f  ||\n", speed, tank.get_fuel_level());
-				}
-				else printf("||     %u    || %f ||\n", speed, tank.get_fuel_level());
-			}
-			else
-			{
-				if (tank.get_fuel_level() < 10)
-				{
-					printf("||     %u   || %f  ||\n", speed, tank.get_fuel_level());
-				}
-				else printf("||     %u   || %f ||\n", speed, tank.get_fuel_level());
-			}
+			int fuel = tank.get_fuel_level() * 10000;
 
-			printf("||    km/h   ||   liters   /\n");
-			//printf("============================\n"); 
-			printf("|\\___________/\\___________/|\n"); 
+			char f1 = fuel / 100000 + 48;
+			char f2 = fuel / 10000 % 10 + 48;
+			char f3 = fuel / 1000 % 10 + 48;
+			char f4 = fuel / 100 % 10 + 48;
+			char f5 = fuel / 10 % 10 + 48;
+			char f6 = fuel % 10 + 48;
 
-			char board[] =
+			char low_fuel[] = { 'l','o','w',' ' ,'f','u','e','l', };
+
+			char board[175] =
 			{
-				'|' , '|' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' ,' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , ' ' , '|' , '|',
-				'=' , '=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' ,'=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=' , '=',
+				' ', ' ', ' ', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '_', '_', '_', '_', '_', '_', '_', '_', '_', ' ', ' ', ' ',
+				' ', ' ', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\\', '_', '_', '_', '_', '_', '_', '_', '_', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\\', ' ', ' ',
+				' ', '/', ' ', ' ', s1 , s2 , s3 , ' ', 'k', 'm', '/', 'h', ' ', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\\', ' ', f1 , f2 , '.', f3 , f4 , f5 , f6 ,'L', ' ', '\\', ' ',
+				'/', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '/', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '\\', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '\\',
+				'|', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_','_','|'
 			};
-			int o = 0;
-			for (int i = 0; i < 2; i++)
+
+			if (tank.get_fuel_level() < MIN_FUEL_LEVEL)
 			{
-				for (int j = 0; j < 28; j++)
+				for (int i = 84, j = 0; i <= 91, j < 8; i++, j++)
 				{
-					cout << board[o++];					
+					board[i] = low_fuel[j];
+				}				
+			}
+
+			int o = 0;
+			for (int i = 0; i < 5; i++)
+			{
+				for (int j = 0; j < 35; j++)
+				{
+					cout << board[o++];
 				}
 				cout << endl;
 			}
+
 
 			std::this_thread::sleep_for(1s);
 		}
@@ -257,7 +282,7 @@ public:
 	}
 	void engine_idle()
 	{
-		while (tank.give_fuel(engine.get_consumption_per_second())&&engine.is_started())
+		while (tank.give_fuel(engine.get_consumption_per_second()) && engine.is_started())
 		{
 			std::this_thread::sleep_for(1s);
 		}
@@ -280,14 +305,14 @@ public:
 			key = _getch();
 			switch (key)
 			{
-			case Enter: driver_inside ? get_out() : get_in();//Вход/Выход из машины
+			case Enter: driver_inside ? get_out() : get_in();//Р’С…РѕРґ/Р’С‹С…РѕРґ РёР· РјР°С€РёРЅС‹
 				break;
-			case 'F':case 'f':  // Fill - заправка
+			case 'F':case 'f':  // Fill - Р·Р°РїСЂР°РІРєР°
 				double amount;
 				cout << "How much?"; cin >> amount;
 				tank.fill(amount);
 				break;
-			case 'I': case 'i': //Ignition - зажигание
+			case 'I': case 'i': //Ignition - Р·Р°Р¶РёРіР°РЅРёРµ
 				engine.is_started() ? stop() : start();
 				break;
 			case 'W':case 'w':case ArrowUp:  //Gas
@@ -295,12 +320,12 @@ public:
 				{
 					speed += 1;
 				}*/
-				if (engine.is_started()&&speed<MAX_SPEED)
+				if (engine.is_started() && speed < MAX_SPEED)
 				{
 					speed += accelleration;
 					if (control.free_wheeling_thread.get_id() == std::thread::id())
-						control.free_wheeling_thread=std::thread(&Car::free_wheeling,this);
-				
+						control.free_wheeling_thread = std::thread(&Car::free_wheeling, this);
+
 				}
 				break;
 			case ArrowDown:case Space:case 'S':case 's':
@@ -315,7 +340,7 @@ public:
 					}
 				}
 				break;
-			case Escape:
+			case Escape1:
 				stop();
 				get_out();
 			}
@@ -337,7 +362,7 @@ public:
 
 void main()
 {
-	setlocale(LC_ALL, "");
+	setlocale(LC_ALL, "Russian");
 
 #ifdef TANK_CHECK
 	Tank tank(11);
@@ -370,15 +395,18 @@ void main()
 	cout << " /  123 km/h  \\  /  10,0000L \\" << endl;
 	cout << "/______________\\/_____________\\"<<endl;
 	cout << "|_____________________________|" << endl;*/
-	setlocale(LC_ALL, "C");
-	cout << "   __________         _________" << endl;
-	cout << "  /          \\_______/         \\" << endl;;
-	cout << " /  123 km/h /       \\ 10,0000L \\" << endl;
-	cout << "/___________/_________\\__________\\" << endl;
-	cout << "|________________________________|" << endl;
-	//Car car(8, 40);
-	//car.info();
-	//car.control_car();
-	
+	//setlocale(LC_ALL, "C");
+	//system("CHCP 866");
+	//cout << "   __________          _________" << endl;
+	//cout << "  /          \\________/         \\" << endl;;
+	//cout << " /  123 km/h /        \\ 10,0000L \\" << endl;
+	//cout << "/___________/__________\\__________\\" << endl;
+	//cout << "|_________________________________|" << endl;
+
+
+	Car car(8, 40);
+	car.info();
+	car.control_car();
+
 
 }
